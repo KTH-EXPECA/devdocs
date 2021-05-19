@@ -1,11 +1,8 @@
-version: '3'
+version: '2'
 services:
   webdocs:
     image: nginx:latest
     volumes:
-      - type: bind
-        source: ./site
-        target: /usr/share/nginx/html
-        read_only: false
+      - ./site:/usr/share/nginx/html:ro
     ports: 
       - 80:80/tcp
