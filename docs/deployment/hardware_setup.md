@@ -146,6 +146,26 @@ See [this website](https://www.virtuability.com/posts/2020/08/get-started-with-u
 
 9. Verify that everything works by logging out and logging back in over SSH.
 
+10. Enable overclocking.
+    Edit the `/boot/config.txt` file with the following values:
+
+        ...
+        over_voltage=6
+        arm_freq=2000
+        force_turbo=1
+        gpu_freq=600
+        ...
+
+11. Finally, verify that everything works once again by rebooting and then checking the core frequency and the temperature.
+
+        # check core frequency in Hz, should return frequency(48)=2000478464 (2GHz)
+        $ vcgencmd measure_clock arm
+        frequency(48)=2000478464
+
+        # check SOC temperature, should ideally be below 50C
+        $ vcgencmd measure_temp
+        temp=43.8'C
+
 ### Cloning the configuration
 
 The easiest way to obtain a completely identical bootable configuration from a single fully configured Raspberry Pi is through the command line on a Linux device:
