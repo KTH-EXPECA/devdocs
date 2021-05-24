@@ -8,6 +8,8 @@ Follow the instructions on the [official Ubuntu website](https://ubuntu.com/tuto
 
 - Skip the *Install a desktop step*. We do not need a graphical interface, and installing and configuring one would just be a waste of resources and time.
 
+- For using SSH you might have to create an empty file named `ssh` in the main boot directory
+
 After installation, boot the device and either log into it physically or remote in over SSH to finalize the configuration.
 See [this website](https://www.virtuability.com/posts/2020/08/get-started-with-ubuntu-20.04-on-raspberry-pi-4/) for instructions and tips for the following steps.
 
@@ -64,11 +66,11 @@ See [this website](https://www.virtuability.com/posts/2020/08/get-started-with-u
 
     a. Make sure the necessary groups exist (you only need to do this once):
 
-        $ sudo getent group sudo || groupadd sudo
+        $ sudo getent group sudo || sudo groupadd sudo
         ...
-        $ sudo getent group docker || groupadd docker
+        $ sudo getent group docker || sudo groupadd docker
         ...
-        $ sudo getent group wheel || groupadd wheel
+        $ sudo getent group wheel || sudo groupadd wheel
         ...
 
     c. Add a user with administrative privileges (you can replace the string after the `-c` flag with your own name when creating your own account).
@@ -135,13 +137,16 @@ See [this website](https://www.virtuability.com/posts/2020/08/get-started-with-u
 
     After you are done editing the file, and you're certain everything is correct, enable and restart the SSH server (this will probably ask for a confirmation):
 
-        sudo systemctl enable ssh && \
-            sudo systemctl restart ssh
+        sudo systemctl enable ssh.service && \
+            sudo systemctl restart sshd && \
+            sudo systemctl restart ssh && \
 
 9. Verify that everything works by logging out and logging back in over SSH.
 
 10. Enable overclocking.
-    Edit the `/boot/config.txt` file with the following values:
+    Edit the `/boot/config.txt` and `/boot/firmware/usercfg.txt` file with the following values:
+    
+    Note: the first file, `/boot/config.txt` might have deprecated.
 
         ...
         over_voltage=6
@@ -152,24 +157,37 @@ See [this website](https://www.virtuability.com/posts/2020/08/get-started-with-u
 
 11. Finally, verify that everything works once again by rebooting and then checking the core frequency and the temperature.
 
+        # Install `vcgencmd` if not available
+        sudo pip3 install setuptools
+        sudo pip3 install vcgencmd
+        sudo apt install libraspberrypi-bin
+        
         # check core frequency in Hz, should return frequency(48)=2000478464 (2GHz)
-        $ vcgencmd measure_clock arm
+        $ sudo vcgencmd measure_clock arm
         frequency(48)=2000478464
 
         # check SOC temperature, should ideally be below 50C
-        $ vcgencmd measure_temp
+        $ sudo vcgencmd measure_temp
         temp=43.8'C
 
-## Cloning the configuration
+        # You can also check the complete configuration using the below command 
+        
+        $ sudo vcgencmd get_config int
+
+
+### Cloning the configuration
 
 1. Shut down the Raspberry Pi and extract the microSD card.
 2. Insert the microSD card into your device.
 3. Depending on your OS, proceed with the corresponding steps and then return here:
 
-    - [Linux](#cloning-the-sd-card-on-linux)
+    - [Linux](#cloning-the-sd-card-on-linux) (Preferred)
     - [Mac OS X](#cloning-the-sd-card-on-mac-os-x)
 
-4. At this point, the new microSD card contains an exact clone of the original configuration. Unmount and remove it, and reinsert it into the Raspberry Pi.
+4. At this point, the new microSD card contains an exact clone of the original configuration. Unmount and remove it, and reinsert it into the Raspberry Pi. 
+
+    Note: There might be some additional steps required if the size of the clone SD card and cloned SD card are different.
+    
 5. Finally, make sure device-specific details are modified on the Pi itself.
 
     In particular, make sure to change the hostname to an appropriate one.
@@ -177,7 +195,7 @@ See [this website](https://www.virtuability.com/posts/2020/08/get-started-with-u
 
         sudo hostnamectl set-hostname expeca-rpi-1
 
-### Cloning the SD card on Linux
+#### Cloning the SD card on Linux
 
 The easiest way to obtain a completely identical bootable configuration from a single fully configured Raspberry Pi is through the command line on a Linux device:
 
@@ -217,13 +235,13 @@ The easiest way to obtain a completely identical bootable configuration from a s
 
 5. [Return to the general cloning instructions.](#cloning-the-configuration)
 
-### Cloning the SD card on Mac OS X
+#### Cloning the SD card on Mac OS X
 
 1. Figure out the device ID of the card using:
 
         diskutil list
 
-    DeviceID is `disk4` in the below example.
+	DeviceID is `rdisk4` in the below example. Here `r` denotes raw contents.
 
         $  ~ % diskutil list
         /dev/disk0 (internal):
@@ -238,7 +256,7 @@ The easiest way to obtain a completely identical bootable configuration from a s
 
 2. Clone the raw contents of the microSD card (this includes filesystem structure and bootable sectors) to somewhere on your hard drive. This might take some time.
 
-        sudo dd if=/dev/<diskX> of=/Users/<username>/Desktop/Rpi.img bs=1m
+        sudo dd if=/dev/<diskX> of=/Users/<username>/Desktop/Rpi.dmg bs=1m
 
 3. Unmount SD card
 
@@ -247,11 +265,11 @@ The easiest way to obtain a completely identical bootable configuration from a s
 4. Once cloning is done, unmount and remove the microSD card from the computer and insert the new microSD card the configuration is going to be copied to.
 5. Clone the image contents after finding the correct device ID (refer to step 2). This might take some time.
 
-        sudo dd if=/Users/<username>/Desktop/Rpi.img of=/dev/<diskX> bs=1m
+        sudo dd if=/Users/<username>/Desktop/Rpi.dmg of=/dev/<rdiskX> bs=1m
 
 6. If the above step shows a "Resource busy" error, unmount (only) the subvolumes and retry.
 
-        diskutil unmountDisk /dev/disk4s1
-        diskutil unmountDisk /dev/disk4s2
+        sudo diskutil unmountDisk /dev/disk4s1
+        sudo diskutil unmountDisk /dev/disk4s2
 
 7. [Return to the general cloning instructions.](#cloning-the-configuration)
