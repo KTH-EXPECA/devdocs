@@ -73,8 +73,9 @@ Configuration for the hosts can be found on the [KTH-EXPECA/TestbedConfig](https
 
 ## meta-data and user-data files for the hosts
 
-### Management Server
+As previously mentioned, these files can be found in the [KTH-EXPECA/TestbedConfig](https://github.com/KTH-EXPECA/TestbedConfig).
+Specifically, you should find three relevant subdirectories in the repository:
 
-### Database & Storage Server
-
-### Cloudlet
+- [TestbedConfig/cloudlet](https://github.com/KTH-EXPECA/TestbedConfig/tree/master/cloudlet), for the cloudlet host.
+- [TestbedConfig/database_server](https://github.com/KTH-EXPECA/TestbedConfig/tree/master/database_server), for the database & storage host.
+- [TestbedConfig/management_server](https://github.com/KTH-EXPECA/TestbedConfig/tree/master/management_server), for the management server host.
