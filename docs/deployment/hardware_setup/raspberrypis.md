@@ -1,14 +1,8 @@
-# Hardware Setup
-
-## x86 Hosts and Virtual Machines
-
-TODO
-
-## Raspberry Pis
+# Setting up the Raspberry Pi 4B clients
 
 The easiest way to deploy an identical initial configuration to each of the 13 Raspberry Pi 4B clients is by completing the [initial steps](#initial-deployment-configuration) on one of the devices and then [cloning the SD-card to obtain 13 copies of the configuration.](#cloning-the-configuration)
 
-### Initial deployment configuration
+## Initial deployment configuration
 
 Follow the instructions on the [official Ubuntu website](https://ubuntu.com/tutorials/how-to-install-ubuntu-on-your-raspberry-pi#1-overview) to install Ubuntu Server in **headless** mode.
 
@@ -166,7 +160,7 @@ See [this website](https://www.virtuability.com/posts/2020/08/get-started-with-u
         $ vcgencmd measure_temp
         temp=43.8'C
 
-### Cloning the configuration
+## Cloning the configuration
 
 1. Shut down the Raspberry Pi and extract the microSD card.
 2. Insert the microSD card into your device.
@@ -183,7 +177,7 @@ See [this website](https://www.virtuability.com/posts/2020/08/get-started-with-u
 
         sudo hostnamectl set-hostname expeca-rpi-1
 
-#### Cloning the SD card on Linux
+### Cloning the SD card on Linux
 
 The easiest way to obtain a completely identical bootable configuration from a single fully configured Raspberry Pi is through the command line on a Linux device:
 
@@ -223,7 +217,7 @@ The easiest way to obtain a completely identical bootable configuration from a s
 
 5. [Return to the general cloning instructions.](#cloning-the-configuration)
 
-#### Cloning the SD card on Mac OS X
+### Cloning the SD card on Mac OS X
 
 1. Figure out the device ID of the card using:
 
