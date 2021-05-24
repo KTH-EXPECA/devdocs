@@ -70,11 +70,11 @@ See [this website](https://www.virtuability.com/posts/2020/08/get-started-with-u
 
     a. Make sure the necessary groups exist (you only need to do this once):
 
-        $ getent group sudo || groupadd sudo
+        $ sudo getent group sudo || groupadd sudo
         ...
-        $ getent group docker || groupadd docker
+        $ sudo getent group docker || groupadd docker
         ...
-        $ getent group wheel || groupadd wheel
+        $ sudo getent group wheel || groupadd wheel
         ...
 
     c. Add a user with administrative privileges (you can replace the string after the `-c` flag with your own name when creating your own account).
@@ -141,8 +141,8 @@ See [this website](https://www.virtuability.com/posts/2020/08/get-started-with-u
 
     After you are done editing the file, and you're certain everything is correct, enable and restart the SSH server (this will probably ask for a confirmation):
 
-        sudo systemctl enable sshd && \
-            sudo systemctl restart sshd
+        sudo systemctl enable ssh && \
+            sudo systemctl restart ssh
 
 9. Verify that everything works by logging out and logging back in over SSH.
 
@@ -168,11 +168,26 @@ See [this website](https://www.virtuability.com/posts/2020/08/get-started-with-u
 
 ### Cloning the configuration
 
+1. Shut down the Raspberry Pi and extract the microSD card.
+2. Insert the microSD card into your device.
+3. Depending on your OS, proceed with the corresponding steps and then return here:
+
+    - [Linux](#cloning-the-sd-card-on-linux)
+    - [Mac OS X](#cloning-the-sd-card-on-mac-os-x)
+
+4. At this point, the new microSD card contains an exact clone of the original configuration. Unmount and remove it, and reinsert it into the Raspberry Pi.
+5. Finally, make sure device-specific details are modified on the Pi itself.
+
+    In particular, make sure to change the hostname to an appropriate one.
+    This can be done through the `hostnamectl` command, e.g.:
+
+        sudo hostnamectl set-hostname expeca-rpi-1
+
+#### Cloning the SD card on Linux
+
 The easiest way to obtain a completely identical bootable configuration from a single fully configured Raspberry Pi is through the command line on a Linux device:
 
-1. Shut down the Raspberry Pi and extract the microSD card.
-2. Insert the microSD card into your Linux device.
-3. Figure out the device ID of the card using `lsblk`.
+1. Figure out the device ID of the card using `lsblk`.
     For example:
 
         $ lsblk
@@ -183,7 +198,7 @@ The easiest way to obtain a completely identical bootable configuration from a s
 
     In this case, the microSD card has been assigned the device ID `/dev/sda`.
 
-4. Clone the raw contents of the microSD card (this includes filesystem structure and bootable sectors) to somewhere on your hard drive using `cat`:
+2. Clone the raw contents of the microSD card (this includes filesystem structure and bootable sectors) to somewhere on your hard drive using `cat`:
 
         cat /dev/sdX > /path/to/somewhere/sdcard.img
 
@@ -193,8 +208,8 @@ The easiest way to obtain a completely identical bootable configuration from a s
 
         pv /dev/sda > /path/to/somewhere/sdcard.img
 
-5. Once cloning is done, unmount and remove the microSD card from the computer and insert the new microSD card the configuration is going to be copied to.
-6. Clone the contents of the image we made in step 4 to the new microSD card. Note that this will completely overwrite the existing filesystem structure on the card.
+3. Once cloning is done, unmount and remove the microSD card from the computer and insert the new microSD card the configuration is going to be copied to.
+4. Clone the contents of the image we made in step 4 to the new microSD card. Note that this will completely overwrite the existing filesystem structure on the card.
 
     To do this, repeat step 3 to verify the device ID of the card, and then execute:
 
@@ -206,11 +221,43 @@ The easiest way to obtain a completely identical bootable configuration from a s
 
     Once this finishes, make sure the filesystem buffers are flushed and synchronized by running `sync` (this will potentially take a minute or two).
 
-7. At this point, the new microSD card contains an exact clone of the original configuration. Unmount and remove it, and reinsert it into the Raspberry Pi.
-8. Finally, make sure device-specific details are modified on the Pi itself.
+5. [Return to the general cloning instructions.](#cloning-the-configuration)
 
-    In particular, make sure to change the hostname to an appropriate one.
-    This can be done through the `hostnamectl` command, e.g.:
+#### Cloning the SD card on Mac OS X
 
-        sudo hostnamectl set-hostname expeca-rpi-1
+1. Figure out the device ID of the card using:
 
+        diskutil list
+
+    DeviceID is `disk4` in the below example.
+
+        $  ~ % diskutil list
+        /dev/disk0 (internal):
+        ...
+        /dev/disk3 (synthesized):
+        ...
+        /dev/disk4 (external, physical):
+        _:		TYPE NAME					SIZE			IDENTIFIER
+        0:		FDisk_partition_scheme		*62.1 GB		disk4
+        1:		Windows_FAT_32 ⁨boot		 268.4 MB		 disk4s1
+        2:		Linux						61.8 GB			disk4s2
+
+2. Clone the raw contents of the microSD card (this includes filesystem structure and bootable sectors) to somewhere on your hard drive. This might take some time.
+
+        sudo dd if=/dev/<diskX> of=/Users/<username>/Desktop/Rpi.img bs=1m
+
+3. Unmount SD card
+
+        sudo diskutil unmountDisk /dev/<diskX>
+
+4. Once cloning is done, unmount and remove the microSD card from the computer and insert the new microSD card the configuration is going to be copied to.
+5. Clone the image contents after finding the correct device ID (refer to step 2). This might take some time.
+
+        sudo dd if=/Users/<username>/Desktop/Rpi.img of=/dev/<diskX> bs=1m
+
+6. If the above step shows a "Resource busy" error, unmount (only) the subvolumes and retry.
+
+        diskutil unmountDisk /dev/disk4s1
+        diskutil unmountDisk /dev/disk4s2
+
+7. [Return to the general cloning instructions.](#cloning-the-configuration)
