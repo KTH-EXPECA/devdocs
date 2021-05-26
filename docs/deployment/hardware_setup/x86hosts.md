@@ -13,6 +13,7 @@ NOTES TO ADD:
 - ssh, sshd
 - interactive sections
 - script for serving metadata
+- installer crash on reboot
 
 All x86 hosts run [Ubuntu Server 20.04 LTS](https://releases.ubuntu.com/20.04/), and as such can be provisioned using [cloud-init](https://cloudinit.readthedocs.io/en/latest/).
 In the following, we will set up a network-local HTTP server that will serve instance metadata to the hosts as they are booting up for the first time.
