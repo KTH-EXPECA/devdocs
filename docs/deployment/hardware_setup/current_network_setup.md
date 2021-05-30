@@ -1,6 +1,6 @@
-# Current Network Setup
+# Management Network and Hardware Setup
 
-This page details the current network setup, used for the *alpha* version of the testbed.
+This page details the current setup for the management network, used for the *alpha* version of the testbed.
 
 ## Physical Setup
 
