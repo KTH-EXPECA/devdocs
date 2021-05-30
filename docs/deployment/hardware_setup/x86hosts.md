@@ -12,7 +12,6 @@ NOTES TO ADD:
 - check ssh configuration
 - ssh, sshd
 - interactive sections
-- script for serving metadata
 - installer crash on reboot
 
 All x86 hosts run [Ubuntu Server 20.04 LTS](https://releases.ubuntu.com/20.04/), and as such can be provisioned using [cloud-init](https://cloudinit.readthedocs.io/en/latest/).
@@ -47,12 +46,19 @@ Configuration for the hosts can be found on the [KTH-EXPECA/TestbedConfig](https
 
         git clone git@github.com:KTH-EXPECA/TestbedConfig.git
 
-2. Serve metadata using the official NGINX Docker container image.
+2. The [KTH-EXPECA/TestbedConfig](https://github.com/KTH-EXPECA/TestbedConfig) includes a shell script `serve_cloud_init.sh` to automate serving of metadata.
+The script takes a directory and a port as arguments and sets up an NGINX web server on socket serving the specified directory:
+
+        ./serve_cloud_init.sh <directory> <port>
+
+3. To instead do this manually:
+   
+    - Serve metadata using the official NGINX Docker container image.
     Replace `$MDATADIR` with the directory containing metadata for the desired instance, and `$PORT` with the desired port on which to listen:
 
-        docker run --rm -it -p $PORT:80 -v /path/to/TestbedConfig/$MDATADIR:/usr/share/nginx/html:ro nginx:latest
+            docker run --rm -it -p $PORT:80 -v /path/to/TestbedConfig/$MDATADIR:/usr/share/nginx/html:ro nginx:latest
 
-3. Make sure the files are accessible from the network by visiting the IP address of the metadata server host from a web browser (don't forget to include the port in the URL).
+    - Make sure the files are accessible from the network by visiting the IP address of the metadata server host from a web browser (don't forget to include the port in the URL).
 
     - This can also be tested on out the command line using `wget` or `curl` (replace `$ADDR` with the IP of the metadata server host and `$PORT` with the TCP port on which it is listening):
 
