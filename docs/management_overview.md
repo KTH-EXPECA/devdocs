@@ -19,4 +19,15 @@ This page details the current setup for the management network, used for the *al
 
 ## Network Setup
 
-<img src="../../assets/WorkloadNetworkAlpha.png" width="450">
+![](../../assets/WorkloadNetworkAlpha.png)
+<!-- <img src="../../assets/WorkloadNetworkAlpha.png" width="450"> -->
+
+## Auth and remote access configuration
+
+SSH access to the network is exposed through port `2222/tcp` of the ingress router at `130.237.53.70`; this port is redirected internally to the SSH daemon listening on port `22/tcp` of the management server `galadriel.expeca.org`.
+Once inside the network, you can pivot into any of the other hosts, all of which have SSH daemons listening on port `22/tcp`.
+
+For security, remote access is **only** allowed through *[public key authentication](https://wiki.archlinux.org/title/SSH_keys)*.
+All devices have a single default user `expeca`, which has no password, and `sudo` is configured for full passwordless access for this user.
+The management server `galadriel.expeca.org` additionally has a user for each member of the group; usernames are the same as the respective group member's KTH ID.
+These users also have full passwordless `sudo` privileges.
