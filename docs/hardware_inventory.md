@@ -18,3 +18,10 @@
 | 13 	| Raspberry Pi 4B 	| Workload Clients 	| Cortex-A72 (ARM v8) 	| 4 (4 threads) 	| 1.5 GHz** 	| 8 GB 	| LPDDR4 SDRAM 	| 3200 MHz 	| 32/64 GB microSD 	|
 
 *\*\* Overclockable to 2 GHz with proper cooling.*
+
+## Networking Equipment 
+
+| Count 	| Device 	| Current Role 	| Ports 	|
+|-	|-	|-	|-	|
+| 1 	| Cisco RV160 Router 	| Ingress Router 	| 1x 1Gbps RJ-45 SFP Eth (WAN)<br>4x 1Gbps RJ-45 Eth 	|
+| 1 	| NETGEAR JGS524v2 Switch 	| Management Network <br>Switch 	| 24x 1Gbps RJ-45 Eth 	|
