@@ -10,21 +10,9 @@ NOTES TO ADD:
 - no space #cloud-config
 - interactive sections
 - installer crash on reboot
-- edit users on raspberry pis
-- summary of management network
 
 All x86 hosts run [Ubuntu Server 20.04 LTS](https://releases.ubuntu.com/20.04/), and as such can be provisioned using [cloud-init](https://cloudinit.readthedocs.io/en/latest/).
 In the following, we will set up a network-local HTTP server that will serve instance metadata to the hosts as they are booting up for the first time.
-
-## Host inventory
-
-| Role 	| Device 	| CPU Model 	| Number of Cores 	| Max. Turbo<br>Frequency 	| Total RAM 	| RAM Type 	| RAM Frequency 	| Storage 	|
-|-	|-	|-	|-	|-	|-	|-	|-	|-	|
-| Management<br>Server 	| Intel<br>NUC 	| Intel Core<br>i7-8705G 	| 4 (8 threads) 	| 3.1 GHz 	| 32 GB<br>(2 x 16 GB) 	| SO-DIMM<br>DDR4 	| 2400 MHz 	| 240 GB NVMe SSD 	|
-| Workload<br>Cloudlet 	| DELL <br>Optiplex<br>7060 	| Intel Core<br>i7-8700 	| 6 (12 threads) 	| 3.2 GHz 	| 32 GB<br>(4 x 8GB) 	| DIMM<br>DDR4 	| 2666 MHz 	| 512 GB NVMe SSD 	|
-| DB/Storage<br>Server 	| DELL<br>Optiplex<br>9020 	| Intel Core<br>i7-4770 	| 4* (8 threads) 	| 3.4 GHz 	| 32 GB<br>(4 x 8GB) 	| DIMM<br>DDR3 	| 1600 MHz 	| 250 GB SATA 2.5" SSD +<br>480 GB SATA 2.5" SSD 	|
-
-*\* For some reason, Ubuntu recognizes it as having 8 **physical** cores instead of virtual ones, which is strange.*
 ## The metadata server
 
 [Cloud-init](https://cloudinit.readthedocs.io/en/latest/) can be configured to fetch host metadata and user data on first boot from a plain HTTP server (see [here](https://cloudinit.readthedocs.io/en/latest/topics/datasources/nocloud.html) and [here](https://opensource.com/article/20/5/create-simple-cloud-init-service-your-homelab)).
