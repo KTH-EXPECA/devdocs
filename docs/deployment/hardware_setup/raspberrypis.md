@@ -1,5 +1,7 @@
 # Setting up the Raspberry Pi 4B clients
 
+TODO: auth
+
 The easiest way to deploy an identical initial configuration to each of the 13 Raspberry Pi 4B clients is by completing the [initial steps](#initial-deployment-configuration) on one of the devices and then [cloning the SD-card to obtain 13 copies of the configuration.](#cloning-the-configuration)
 
 ## Initial deployment configuration
