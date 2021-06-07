@@ -119,7 +119,7 @@ As mentioned before, configuration files for the hosts can be found on the [KTH-
     See the configuration files for details.
 
 4. Once installation is finished, the installer will prompt to reboot.
-    However, there seems to be a bug in the Ubuntu Server installer which causes it to crash at this point.
+    However, as of June 2021 there seems to be a bug in the Ubuntu Server installer which causes it to crash at this point.
     Instead, when the reboot prompt appears, switch to TTY2 (`ALT + F2`) and reboot manually: `sudo reboot`.
 
 5. The host will reboot and perform some final configuration of first boot, after which it will be ready to be used.
