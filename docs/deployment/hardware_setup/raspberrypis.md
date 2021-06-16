@@ -177,8 +177,18 @@ See [this website](https://www.virtuability.com/posts/2020/08/get-started-with-u
         force_turbo=1
         gpu_freq=600
         ...
+	
+12. Enable the USB-Ethernet adapter.
+    Edit the `/etc/netplan/50-cloud-init.yaml` file and add the following to networks -> ethernets:
+    
+    	...
+    	eth1:
+            dhcp4: true
+            optional: true
+    	...
+    And then apply the change by running `sudo netplan apply`
 
-12. Finally, verify that everything works once again by rebooting and then checking the core frequency and the temperature.
+13. Finally, verify that everything works once again by rebooting and then checking the core frequency and the temperature.
 
     1. Install `vcgencmd` if it's not available:
 
