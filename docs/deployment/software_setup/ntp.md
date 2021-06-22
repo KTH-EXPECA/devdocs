@@ -6,7 +6,7 @@ The management server hosts an NTP server instance that all devices in the netwo
 ## Setting up the NTP server
 
 An Ansible Playbook YAML file for automatic set-up of the NTP server can be found in the [KTH-EXPECA/TestbedConfig](https://github.com/KTH-EXPECA/TestbedConfig/tree/master/services/ntp/playbooks/set_up_ntp.yml) repository.
-Run it by executing `ansible-playbook set_up_ntp.yml` on the command line.
+Run it by executing `ansible-playbook set_up_ntp.yml` on the command line on the management server (`galadriel`).
 
 The playbook contains two plays:
 
