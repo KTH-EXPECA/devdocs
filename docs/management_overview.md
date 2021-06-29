@@ -25,9 +25,20 @@ This page details the current setup for the management network, used for the *al
 ## Auth and remote access configuration
 
 SSH access to the network is exposed through port `2222/tcp` of the ingress router at `130.237.53.70`; this port is redirected internally to the SSH daemon listening on port `22/tcp` of the management server `galadriel.expeca.org`.
-Once inside the network, you can pivot into any of the other hosts, all of which have SSH daemons listening on port `22/tcp`.
+Once inside the network, you can [pivot](#pivoting-into-hosts-from-management-server-using-agent-forwarding) into any of the other hosts, all of which have SSH daemons listening on port `22/tcp`.
 
 For security, remote access is **only** allowed through *[public key authentication](https://wiki.archlinux.org/title/SSH_keys)*.
 All devices have a single default user `expeca`, which has no password, and `sudo` is configured for full passwordless access for this user.
 The management server `galadriel.expeca.org` additionally has a user for each member of the group; usernames are the same as the respective group member's KTH ID.
 These users also have full passwordless `sudo` privileges.
+
+### Pivoting into hosts using agent forwarding
+For security reasons, it is not recommended to copy the private key to the management server or even turning on agent forwarding permanently. Instead you can use the tag `-A` along with the SSH Command.  This will forward the key only for the current session. Once done, you can access other hosts in the normal way.
+
+1. If not done already, add the private key to the list of default private-keys in your personal local machine:
+
+            sudo ssh-add /path/to/private/key/id_rsa
+	
+2. Use `-A` along with SSH to forward the key:
+
+            ssh expeca@130.237.53.70 -p 2222 -A
