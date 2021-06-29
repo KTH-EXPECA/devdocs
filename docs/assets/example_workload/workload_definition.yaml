@@ -1,0 +1,6 @@
+---
+name: Example Workload
+num-clients: 10
+backend:
+  image
+...
