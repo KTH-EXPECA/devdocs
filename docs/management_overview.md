@@ -33,12 +33,20 @@ The management server `galadriel.expeca.org` additionally has a user for each me
 These users also have full passwordless `sudo` privileges.
 
 ### Pivoting into hosts using agent forwarding
-For security reasons, it is not recommended to copy the private key to the management server or even turning on agent forwarding permanently. Instead you can use the tag `-A` along with the SSH Command.  This will forward the key only for the current session. Once done, you can access other hosts in the normal way.
 
-1. If not done already, add the private key to the list of default private-keys in your personal local machine:
+For security reasons, do not copy your private key to the management host. Instead, use [SSH Agent Forwarding](https://docs.github.com/en/developers/overview/using-ssh-agent-forwarding).
 
-            sudo ssh-add /path/to/private/key/id_rsa
+1. If not done already, initialize the SSH Agent and add your key:
+    - For Mac OS X, [see here.](https://rob.cr/blog/using-ssh-agent-mac-os-x/)
+    - For Linux, [see here.](https://www.cyberciti.biz/faq/how-to-set-up-ssh-keys-on-linux-unix/)
 	
-2. Use `-A` along with SSH to forward the key:
+2. When connecting to the management host, forward your SSH Agent:
+    - On the command line, use the `-A` flag: `#!bash ssh expeca@130.237.53.70 -p 2222 -A`.
+    - Add an entry to your `.ssh/config` file:
 
-            ssh expeca@130.237.53.70 -p 2222 -A
+            Host ExpecaManagement 130.237.53.70
+                Hostname 130.237.53.70
+                Port 2222
+                IdentityFile ~/.ssh/your_ssh_private_key
+                User expeca
+                ForwardAgent yes
