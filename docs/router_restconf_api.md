@@ -5,13 +5,17 @@ This API does not seem to follow the standards for RESTCONF I've found online:
 
 - It sits behind port `443` listening on `/api`.
 - It only responds to special `Accept` headers:
-  - `application/vnd.yang.api+json` when querying the API itself.
-  - `application/vnd.yang.datastore+json` when querying collections such as `running` or `startup`.
-  - `application/vnd.yang.data+json` when checking/setting the values for a specific configuration such as `ciscosb-lan-dhcp:static-dhcp`.
+  
+    - `application/vnd.yang.api+json` when querying the API itself.
+    - `application/vnd.yang.datastore+json` when querying collections such as `running` or `startup`.
+    - `application/vnd.yang.data+json` when checking/setting the values for a specific configuration such as `ciscosb-lan-dhcp:static-dhcp`.
+
 - The Ansible RESTCONF modules do not seem to be compatible with it.
 
-```console
-$ curl -H "Accept: application/vnd.yang.api+json" -k https://192.168.1.1:443/api -u "expeca:expeca" | python3 -m json.tool
+``` bash
+$ curl -H "Accept: application/vnd.yang.api+json" \
+  -k https://192.168.1.1:443/api \
+  -u "expeca:expeca" | python3 -m json.tool
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
 100  4842  100  4842    0     0  23970      0 --:--:-- --:--:-- --:--:-- 23852
@@ -86,27 +90,31 @@ $ curl -H "Accept: application/vnd.yang.api+json" -k https://192.168.1.1:443/api
 }
 ```
 
-### Reading the running/startup configuration
+## Reading the running/startup configuration
 
-To read the (full) running or startup configurations, query the corresponding endpoint. Make sure to include the `?deep` URL parameter at the end to get the full tree, and pipe the output to a pager or VIM to be able to scroll through and search through it. Note also the `Accept` header.
+To read the (full) running or startup configurations, query the corresponding endpoint with a `GET` request. Make sure to include the `?deep` URL parameter at the end to get the full tree, and pipe the output to a pager or VIM to be able to scroll through and search through it. Note also the `Accept` header.
 
 Example:
 
-```console
-curl -H "Accept: application/vnd.yang.datastore+json" -k https://192.168.1.1:443/api/startup?deep -u "expeca:expeca" | python3 -m json.tool | vim -
+``` bash
+curl -H "Accept: application/vnd.yang.datastore+json" \
+  -k https://192.168.1.1:443/api/startup?deep \
+  -u "expeca:expeca" | python3 -m json.tool | vim -
 ```
 
-### Reading a specific configuration section
+## Reading a specific configuration section
 
-To read a specific configuration section, query the corresponding configuration endpoint appending the name of the target section. Again, make sure to include the `?deep` URL parameter at the end to get the full tree, and pipe the output to a pager or VIM. Note the `Accept` header.
+To read a specific configuration section, query the corresponding configuration endpoint with a `GET` request, appending the name of the target section. Again, make sure to include the `?deep` URL parameter at the end to get the full tree, and pipe the output to a pager or VIM. Note the `Accept` header.
 
 Example (to read static DHCP mappings):
 
-```console
-curl -H "Accept: application/vnd.yang.data+json" -k https://192.168.1.1:443/api/startup/ciscosb-lan-dhcp:static-dhcp?deep -u "expeca:expeca" | python3 -m json.tool | vim -
+``` bash
+curl -H "Accept: application/vnd.yang.data+json" \
+  -k https://192.168.1.1:443/api/startup/ciscosb-lan-dhcp:static-dhcp?deep \
+  -u "expeca:expeca" | python3 -m json.tool | vim -
 ```
 
-### Editing a specific configuration section
+## Editing a specific configuration section
 
 Edits can only be done on the running configuration, and there are three modes of operation when editing configuration sections:
 
@@ -118,7 +126,7 @@ Payload for any of these operations should be a JSON object matching the target 
 
 Easiest way of doing this is through the Ansible `uri` module, which automatically converts any object inside the `body` key to a valid JSON:
 
-```yaml
+``` yaml
 - name: Append to running DHCP mappings using RESTCONF
   uri:
     url: "https://192.168.1.1:443/api/running/ciscosb-lan-dhcp:static-dhcp"
@@ -141,13 +149,13 @@ Easiest way of doing this is through the Ansible `uri` module, which automatical
     validate_certs: no
 ```
 
-### Saving the running configuration
+## Saving the running configuration
 
 After modifying the running configuration, it needs to be copied to the startup configuration (as otherwise it will reset on reboot). This is performed by issuing a `POST` request to a special endpoint `/api/config/_copy-running-to-startup` (there is also a `/api/running/_copy-running-to-startup` endpoint which probably also works, but I have not tried it).
 
 Again, the easiest way to do this is through the `uri` module:
 
-```yaml
+``` yaml
 - name: Trigger copy running router configuration to startup configuration
   uri:
     url: "https://192.168.1.1:443/api/config/_copy-running-to-startup"

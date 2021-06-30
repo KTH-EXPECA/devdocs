@@ -22,4 +22,13 @@ theme:
 repo_url: https://github.com/KTH-EXPECA/docs
 repo_name: KTH-EXPECA/docs
 copyright: Copyright &copy; 2020 - EXPECA Project Group at KTH Royal Institute of Technology
+markdown_extensions:
+  - pymdownx.highlight:
+      linenums: yes
+      linenums_style: pymdownx-inline
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.superfences
+  - pymdownx.snippets
 ...
