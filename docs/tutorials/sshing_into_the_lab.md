@@ -65,10 +65,16 @@ Once logged in to `galadriel`, if you forwarded your SSH agent correctly, you sh
     ``` console
     your_username@galadriel:~$ ssh-add -l
     # should output a list of available ssh keys
-    # if no keys show up here it's because you have not correctly forwarded your agent.
     ```
 
-2. Pivot into another host, making sure to forward your agent again to have access to your keys on the new host too. Also, note that on all hosts other than `galadriel`, there exists a single user account `expeca` only.
+    If the above command does not output any keys, the probable causes are two:
+
+    1. Your SSH agent was not correctly forwarded when initiating the connection.
+        Make sure you added the `ForwardAgent` option in `.ssh/config` and/or specify `-A` on the command line.
+    2. Your SSH agent was correctly forwarded but your key has not been added to it.
+        Make sure to run `ssh-add <your private key>` before initiating the connection.
+
+2. Pivot into another host, making sure to forward your agent again to have access to your keys on the new host too. Also, note that on all hosts other than `galadriel`, there only exists a single user account `expeca`.
 
     ``` console
     # replace elrond with your host of choice
@@ -83,7 +89,7 @@ Once logged in to `galadriel`, if you forwarded your SSH agent correctly, you sh
 Every user with access to `galadriel` technically has access to two user accounts on the system:
 
 - A personal account using the same username as their KTH account.
-- The `expeca` account, a special account shared for management of the cluster.
+- The `expeca` account, a special shared account for management of the cluster.
 
 *Please* be careful when executing commands on the `expeca` account, as that is the account we use for general management of the cluster.
 In particular, avoid changing things like environment variables and Python interpreters on the `expeca` user as Ansible depends on those.
