@@ -8,7 +8,7 @@ If the instructions detailed on [Setting up the x86 hosts](../hardware_setup/x86
 
 If that is not the case, it can be installed through APT (instructions copied from the [official Ansible documentation](https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#installing-ansible-on-ubuntu), see there for more details):
 
-```console
+``` bash
 $ sudo apt update
 $ sudo apt install software-properties-common
 $ sudo add-apt-repository --yes --update ppa:ansible/ansible
