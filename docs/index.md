@@ -1,6 +1,6 @@
 # Welcome
 
-![header](../../assets/welcome_header.png)
+![header](assets/welcome_header.png)
 
 Welcome to the development documentation for the EXPECA Edge Computing Testbed at KTH Royal Institute of Technology.
 
