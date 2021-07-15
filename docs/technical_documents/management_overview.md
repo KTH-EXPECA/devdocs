@@ -4,7 +4,7 @@ This page details the current setup for the management network, used for the *al
 
 ## Physical Setup
 
-![](assets/AlphaHardwareSetup_Annotated.png)
+![](/assets/AlphaHardwareSetup_Annotated.png)
 
 |  	| Device 	| Role 	| FQDN 	| IP 	| Services 	|
 |-	|-	|-	|-	|-	|-	|
@@ -19,7 +19,7 @@ This page details the current setup for the management network, used for the *al
 
 ## Network Setup
 
-![](assets/WorkloadNetworkAlpha.png)
+![](/assets/WorkloadNetworkAlpha.png)
 <!-- <img src="../../assets/WorkloadNetworkAlpha.png" width="450"> -->
 
 ## Auth and remote access configuration
