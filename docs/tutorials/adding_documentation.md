@@ -1,4 +1,4 @@
-# How to add documentation
+# Adding documentation
 
 ## How to add a page
 
