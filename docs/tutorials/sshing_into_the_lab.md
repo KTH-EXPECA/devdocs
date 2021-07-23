@@ -1,6 +1,11 @@
 # Accessing the lab remotely
 
-Remote access into the lab follows a standard SSH workflow.
+## Overview
+
+- The ingress router `cirdan` listens for incoming SSH connections to the testbed on the IP address `130.237.53.70`, port `2222`.
+- All incoming connections are forwarded to `galadriel`.
+- Remote SSH access to `galadriel` is *only* permitted through public-key authentication.
+- From `galadriel`, access to every other host on the network is possile, again exclusively through public-key authentication (make sure to forward your SSH agent when connecting).
 
 ## Prerequisite: SSH keys
 
