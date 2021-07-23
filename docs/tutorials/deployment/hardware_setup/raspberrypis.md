@@ -73,7 +73,7 @@ At this point, the Raspberry Pi is ready for full provisioning and configuration
     - [Mac OS X](#cloning-the-sd-card-on-mac-os-x)
 
 4. At this point, the new microSD card contains an exact clone of the original configuration. Unmount and remove it, and reinsert it into the Raspberry Pi.
-    Note: There might be some additional steps required if the sizes of the SD cards are different (TODO).
+    <!-- Note: There might be some additional steps required if the sizes of the SD cards are different. -->
 
 5. Finally, make sure device-specific details are modified on the Pi itself.
 

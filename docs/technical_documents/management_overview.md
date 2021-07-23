@@ -41,7 +41,7 @@ The management network is configured as follows:
 
     - We use [Pi-Hole](https://pi-hole.net/) + [Unbound DNS](https://www.nlnetlabs.nl/projects/unbound/about/) as our integrated DHCP+DNS solution (with the added benefit of ad-blocking thanks to Pi-Hole).
         These are deployed together as two containerized services with `docker-compose`, see [here](https://docs.pi-hole.net/guides/dns/unbound/) and [here](https://hub.docker.com/r/klutchell/unbound), as well as our [Ansible role for this](https://github.com/KTH-EXPECA/TestbedConfig/blob/master/ansible/roles/pihole_dhcp_dns/tasks/main.yml).
-    - See (TODO: add link) for details on how to modify the DHCP and/or DNS bindings.
+    - See [here](/tutorials/adding_dhcp_dns_bindings#adding-dhcp-bindings-and-dns-records) for details on how to modify the DHCP and/or DNS bindings.
 
 - Finally, `galadriel` is also configured as an NTP server for the network, using a containerized [`chrony` instance](https://hub.docker.com/r/cturra/ntp/).
     Devices sync to this server using `systemd-timesyncd`.
