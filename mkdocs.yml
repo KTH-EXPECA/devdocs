@@ -32,6 +32,8 @@ markdown_extensions:
   - pymdownx.keys
   - pymdownx.superfences
   - pymdownx.snippets
+  - toc:
+      permalink: 🔗
 plugins:
   - awesome-pages
 ...
