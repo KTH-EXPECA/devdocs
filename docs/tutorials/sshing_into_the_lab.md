@@ -2,7 +2,10 @@
 
 ## Overview
 
-- The ingress router `cirdan` listens for incoming SSH connections to the testbed on the IP address `130.237.53.70`, port `2222`.
+- The ingress router `cirdan` listens for incoming SSH connections to the testbed on the address [`expeca.duckdns.org`](expeca.duckdns.org), port `2222`.
+
+    - You can also use the testbed WAN IP address directly, `130.237.53.70`.
+
 - All incoming connections are forwarded to `galadriel`.
 - Remote SSH access to `galadriel` is *only* permitted through public-key authentication.
 - From `galadriel`, access to every other host on the network is possile, again exclusively through public-key authentication (make sure to forward your SSH agent when connecting).
@@ -14,7 +17,7 @@ If you do not already have one, you can generate one following the instructions 
 
 After generating the keys, your public key needs to be added to the cluster by someone with administrative privileges.
 
-**NOTE:** Never share your *private* key - only your *public* key is safe to distribute.
+**NOTE:** Never share your *private* key --- only your *public* key is safe to distribute.
 
 ## Logging in to the management host (`galadriel`)
 
@@ -32,10 +35,10 @@ After generating the keys, your public key needs to be added to the cluster by s
 
     ``` text
     Host ExPECA # or whatever other name you wish to use to refer to this config
-        Hostname        130.237.53.70
+        Hostname        expeca.duckdns.org  # alternatively, use the IP directly: 130.237.53.70
         Port            2222
         IdentityFile    ~/.ssh/your_private_key # replace with your private key file name
-        User            your_username  # replace with your username
+        User            expeca  # alternatively, replace with your username
         ForwardAgent    yes # required for pivoting into other hosts
     ```
 
@@ -44,7 +47,7 @@ After generating the keys, your public key needs to be added to the cluster by s
     ``` console
     $ ssh ExPECA  # or whatever name you chose for the configuration above.
     ...
-    your_username@galadriel:~$
+    expeca@galadriel:~$
     ```
 
 ### Logging in without a configuration file
@@ -55,10 +58,12 @@ If for some reason you can't write to the `.ssh/config` file, you can specify al
 # -A enables SSH agent forwarding
 # -p specifies the target port
 # replace ~/.ssh/your_private_key with the path to your private key
-# replace your_username with your username on galadriel
-$ ssh -A -p 2222 -i ~/.ssh/your_private_key your_username@130.237.53.70 
+# optional: replace expeca.duckdns.org with 130.237.53.70
+# optional: replace expeca with your username on galadriel
+
+$ ssh -A -p 2222 -i ~/.ssh/your_private_key expeca@130.237.53.70 
 ...
-your_username@galadriel:~$
+expeca@galadriel:~$
 ```
 
 ### Pivoting into other hosts from `galadriel`
@@ -68,7 +73,7 @@ Once logged in to `galadriel`, if you forwarded your SSH agent correctly, you sh
 1. Check that your agent has been forwarded:
 
     ``` console
-    your_username@galadriel:~$ ssh-add -l
+    expeca@galadriel:~$ ssh-add -l
     # should output a list of available ssh keys
     ```
 
@@ -83,11 +88,10 @@ Once logged in to `galadriel`, if you forwarded your SSH agent correctly, you sh
 
     ``` console
     # replace elrond with your host of choice
-    your_username@galadriel:~$ ssh -A expeca@elrond 
+    expeca@galadriel:~$ ssh -A expeca@elrond 
     ...
     expeca@elrond:~$ 
     ```
-
 
 ## A note on user accounts on `galadriel`
 
@@ -98,4 +102,3 @@ Every user with access to `galadriel` technically has access to two user account
 
 *Please* be careful when executing commands on the `expeca` account, as that is the account we use for general management of the cluster.
 In particular, avoid changing things like environment variables and Python interpreters on the `expeca` user as Ansible depends on those.
-
