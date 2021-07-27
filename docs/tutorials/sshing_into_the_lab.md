@@ -2,7 +2,7 @@
 
 ## Overview
 
-- The ingress router `cirdan` listens for incoming SSH connections to the testbed on the address [`expeca.duckdns.org`](expeca.duckdns.org), port `2222`.
+- The ingress router `cirdan` listens for incoming SSH connections to the testbed on the address [`expeca.duckdns.org`](ssh://expeca.duckdns.org:2222), port `2222`.
 
     - You can also use the testbed WAN IP address directly, `130.237.53.70`.
 
