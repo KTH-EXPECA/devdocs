@@ -4,6 +4,8 @@
 
 This website is built from Markdown-formatted text files using [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/), an extended version of the base [MkDocs](https://www.mkdocs.org/) framework.
 
+It is also automatically built from the `master` branch of the source repository [KTH-EXPECA/devdocs](https://github.com/KTH-EXPECA/devdocs) using a GitHub Action.
+
 ## Editing pages
 
 

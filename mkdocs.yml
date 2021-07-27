@@ -20,8 +20,8 @@ theme:
     - navigation.expand
     - navigation.top
     - toc.integrate
-repo_url: https://github.com/KTH-EXPECA/docs
-repo_name: KTH-EXPECA/docs
+repo_url: https://github.com/KTH-EXPECA/devdocs
+repo_name: KTH-EXPECA/devdocs
 copyright: Copyright &copy; 2020 - EXPECA Project Group at KTH Royal Institute of Technology
 markdown_extensions:
   - def_list
@@ -37,4 +37,7 @@ markdown_extensions:
       permalink: 🔗
 plugins:
   - awesome-pages
+  - git-revision-date-localized:
+      type: timeago
+      enable_creation_date: true
 ...
