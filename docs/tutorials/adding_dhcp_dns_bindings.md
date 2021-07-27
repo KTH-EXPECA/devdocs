@@ -1,4 +1,4 @@
-# Adding DHCP bindings and DNS records
+# Modifying DHCP bindings and DNS records
 
 DHCP bindings and *local* DNS records for the management network are handled both by a [Pi-Hole](https://pi-hole.net/) instance running on `galadriel`.
 Pi-Hole has a very comprehensive and powerful web-interface through which basically all of its core functionality can be configured.

@@ -1,6 +1,7 @@
 # Management Network and Hardware Overview
 
 This page details the current setup for the management network, used for the *alpha* version of the testbed.
+**PLEASE READ THIS PAGE CAREFULLY IN ITS ENTIRETY BEFORE MAKING CHANGES TO THE NETWORK INFRASTRUCTURE**
 
 ## Physical Setup
 
@@ -42,6 +43,10 @@ The management network is configured as follows:
     - We use [Pi-Hole](https://pi-hole.net/) + [Unbound DNS](https://www.nlnetlabs.nl/projects/unbound/about/) as our integrated DHCP+DNS solution (with the added benefit of ad-blocking thanks to Pi-Hole).
         These are deployed together as two containerized services with `docker-compose`, see [here](https://docs.pi-hole.net/guides/dns/unbound/) and [here](https://hub.docker.com/r/klutchell/unbound), as well as our [Ansible role for this](https://github.com/KTH-EXPECA/TestbedConfig/blob/master/ansible/roles/pihole_dhcp_dns/tasks/main.yml).
     - See [here](/tutorials/adding_dhcp_dns_bindings#adding-dhcp-bindings-and-dns-records) for details on how to modify the DHCP and/or DNS bindings.
+
+- The workload switch, `glorfindel`, is connected to the management network through an ethernet port, `GE1`, which is completely separate and isolated from the rest of its ports through the use of VLANs.
+    The `GE1` port is set to `Access` mode, and is assigned to VLAN1 (untagged) on this switch; furthermore it is forbidden from joining any other VLANs.
+    This is to avoid accidental management network traffic polluting the workload network.
 
 - Finally, `galadriel` is also configured as an NTP server for the network, using a containerized [`chrony` instance](https://hub.docker.com/r/cturra/ntp/).
     Devices sync to this server using `systemd-timesyncd`.
