@@ -49,7 +49,7 @@ Simply create directories and modify their content to create and re-organize sec
 ### Setting the order of pages inside a section
 
 By default, MkDocs orders pages alphabetically inside sections.
-Since this is usually not what we want, we use the `awesome-pages` plugin to specify custom orderings.
+Since this is usually not what we want, we use the [`awesome-pages` plugin to specify custom orderings](https://github.com/lukasgeiter/mkdocs-awesome-pages-plugin).
 Configuring the order of subpages and subsections inside a secion is done then by creating special `.page` in the corresponding directory; this file is actually a YAML file which should have the following structure:
 
 ``` yaml
