@@ -2,15 +2,84 @@
 
 ## Overview
 
-This website is built from Markdown-formatted text files using [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/), an extended version of the base [MkDocs](https://www.mkdocs.org/) framework.
-
-It is also automatically built from the `master` branch of the source repository [KTH-EXPECA/devdocs](https://github.com/KTH-EXPECA/devdocs) using a GitHub Action.
+This website is built from Markdown-formatted text files using [Material for MkDocs](https://squidfunk.github.io/mkdocs-material/), an extended version of the base [MkDocs](https://www.mkdocs.org/) framework. It is automatically built from the `master` branch of the source repository [KTH-EXPECA/devdocs](https://github.com/KTH-EXPECA/devdocs) using a GitHub Action whenever new commits are pushed.
 
 ## Editing pages
 
+Each page in this website corresponds to a Markdown file under the `docs/` directory, or any of its subdirectories.
+Simply edit or create files to modify the content of the documentation.
 
+### Setting titles
+
+By default, page titles in the navigation sections in the top bar and sidebar are set from the first top-level markdown heading of the file.
+That is, a file beginning with 
+
+``` markdown
+# This is a top-level heading
+```
+
+will show up as `This is a top-level heading` in the navigation sections.
+
+This behavior can be overridden in multiple ways:
+
+- By setting a different title inside a YAML header at the top of the file.
+    For instance:
+
+    ``` markdown
+    ---
+    title: Different title
+    ...
+
+    # This is a top-level heading
+    ```
+
+    Makes the file show up as `Different title`, instead of `This is a top-level heading`.
+
+- By not including a top-level heading in the file.
+    This will cause the MkDocs to create a name from its filename.
+    For instance, a file called `different_title.md` without a top-level heading will show up as `Different title` in the navigation.
+
+- Using the `awesome-pages` plugin; see the [section below](#setting-section-titles) for details.
 
 ## Editing sections
+
+Sections in MkDocs simply correspond to subdirectories inside the `docs/` directory.
+Simply create directories and modify their content to create and re-organize sections.
+
+### Setting the order of pages inside a section
+
+By default, MkDocs orders pages alphabetically inside sections.
+Since this is usually not what we want, we use the `awesome-pages` plugin to specify custom orderings.
+Configuring the order of subpages and subsections inside a secion is done then by creating special `.page` in the corresponding directory; this file is actually a YAML file which should have the following structure:
+
+``` yaml
+---
+nav:
+  - first_page.md
+  - second_page.md
+  - section
+...
+```
+
+Pages and sections will then appear in the navigation in the order specified in the corresponding `.page` file for their parent section.
+*Hint:* The wildcard `...` can be used as a catch-all to allow MkDocs to automatically order any pages and sections that are not explicitly declared in the `.pages` file.
+
+### Setting section titles
+
+Sections titles can be set in two ways:
+
+- By default, MkDocs creates names from the directory name.
+    A directory called `a_section` thus creates a section called `A section`.
+
+- Using the `awesome-pages` plugin, section (and page) names can be customized by prepending the desired name in the corresponding `.pages` file like so:
+
+    ``` yaml
+    ---
+    nav:
+      - First page: first_page_with_a_weird_filename.md
+      - First section: section_number1
+    ...
+    ```
 
 ## Previewing the website
 
@@ -89,5 +158,4 @@ To use plugins with the website, a couple of steps need to be followed:
       - <pluginN>
     ```
 
-4. Finally, configure the plugin.
-: Follow the specific instructions for each plugin to configure it.
+4. Finally, configure the plugin; follow the specific instructions for each plugin to configure it.
