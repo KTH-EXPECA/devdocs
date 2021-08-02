@@ -29,9 +29,11 @@ To configure settings in a way that will persist even through re-runs of the Ans
 
 DHCP bindings on the base Ansible configuration are built from the [Ansible inventory itself](https://github.com/KTH-EXPECA/TestbedConfig/tree/master/ansible/inventory).
 
-To change/add a binding for a host managed by Ansible (e.g. `galadriel` or `elrond`), simply change the associated `ansible_host` and/or `mac` variables for said host (TODO: add link for more details on inventory).
+To change/add a binding for a host managed by Ansible (e.g. `galadriel` or `elrond`), simply change the associated `ip` and/or `mac` variables for said host.
 
-To change/add a binding for a host *not* managed by Ansible (such as the workload switch `glorfindel`), modify the variable `mgmt_net.additional_hosts` in the [`groupvars/all.yml` file.](https://github.com/KTH-EXPECA/TestbedConfig/blob/master/ansible/inventory/group_vars/all.yml) (TODO: add link for more details on inventory)
+To change/add a binding for a host *not* managed by Ansible (such as the workload switch `glorfindel`), modify the variable `mgmt_net.additional_hosts` in the [`groupvars/all.yml` file.](https://github.com/KTH-EXPECA/TestbedConfig/blob/master/ansible/inventory/group_vars/all.yml)
+
+See [here for more details on our Ansible inventory.](/tutorials/ansible/)
 
 ## Modifying DNS records
 
@@ -50,12 +52,26 @@ As for DHCP bindings, DNS records on the base Ansible configuration are built fr
 
 To change/add a record for a host managed by Ansible (e.g. `galadriel` or `elrond`):
 
-- To set the target IP address: change the associated `ansible_host` variable for the specified host.
-- To set the target hostname: rename the host by changing its name on the main inventory file, `inventory/hosts.yml`, as well as renaming all host variable files associated with it. See [here for more details on our Ansible inventory.](/tutorials/ansible/)
+- To set the target IP address: change the associated `ip` variable for the specified host.
+- To set the target hostname: rename the host by changing its name on the main inventory file, `inventory/hosts.yml`, as well as renaming all host variable files associated with it.
 
-To change/add a record for a host *not* managed by Ansible (such as the workload switch `glorfindel`), modify the variable `mgmt_net.additional_hosts` in the [`groupvars/all.yml` file.](https://github.com/KTH-EXPECA/TestbedConfig/blob/master/ansible/inventory/group_vars/all.yml) (TODO: add link for more details on inventory)
+See [here for more details on our Ansible inventory.](/tutorials/ansible/)
+
+To change/add a record for a host *not* managed by Ansible (such as the workload switch `glorfindel`), modify the variable `mgmt_net.additional_hosts` in the [`groupvars/all.yml` file.](https://github.com/KTH-EXPECA/TestbedConfig/blob/master/ansible/inventory/group_vars/all.yml)
 
 #### Important note regarding hostnames
 
 For consistency, hostnames and FQDNs on the management network should match.
 When changing hostnames and/or DNS records, make sure to **always run both the playbook to set DNS records and the playbook to set hostnames.**
+
+#### A note about the internal domain: `expeca`
+
+We use a hard-coded internal top-level domain for the management network, `.expeca`.
+If at some point in the future we wish to change this domain, the following steps need to be performed:
+
+- Modify `ansible/roles/pihole_dhcp_dns/tasks/main.yml`, replacing all references to the domain.
+  Specifically, these appear in the tasks writing the `setupVars.conf` configuration file and the tasks building the DNS mappings.
+- Modify each of the files in `ansible/inventory/host_vars` to point their respective `ansible_host` variable to the new FQDN.
+- Replace the reference to the domain in the `ansible/roles/ntp/tasks/main.yml` file.
+- Re-run the `ansible/mgmt_network_setup.yml`, **while physically connected to `galadriel`** on a separate ethernet connection (i.e. not through the management network!).
+- Re-run `ansible/configure_ntp.yml` (this can be done remotely).
