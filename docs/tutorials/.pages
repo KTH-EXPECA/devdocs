@@ -1,4 +1,5 @@
 nav:
+  - using_aws.md
   - sshing_into_the_lab.md
   - adding_documentation.md
   - ansible.md

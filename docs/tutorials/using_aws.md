@@ -32,7 +32,7 @@ The steps are:
     Please select action to take (create/start/stop/terminate): start
     ```
 
-4. Ansible will proceed to bring up the testbed, and when will output the address of `galadriel`:
+4. Ansible will proceed to bring up the testbed, and will output the public address of `galadriel` when finished:
 
     ``` text
     ...
@@ -106,7 +106,7 @@ To reset the staging setup:
 4. [SSH into `galadriel`.](#sshing-to-the-staging-setup)
 5. `cd` into `TestbedConfig/ansible`.
 6. Update the repository with `git pull`.
-7. Activate the Ansible virtual environment that is already there: `$ source venv/bin/activate`.
+7. Activate the Ansible virtual environment that is already there: `source venv/bin/activate`.
 8. Run the `set_hostnames.yml` playbook to fix hostnames and host IP resolution on all instances (note the `-i inventory/hosts.staging.yml` flag):
 
     ``` console
@@ -114,15 +114,15 @@ To reset the staging setup:
     ...
     ```
 
-9. Run the `configure_docker_swarm.yml` playbook to bring up and re-configure the Docker swarm:
+9. Run the `configure_docker_swarm.yml` playbook to bring up and re-configure the Docker swarm (again, note the `-i inventory/hosts.staging.yml` flag):
 
     ``` console
     $ ansible-playbook -i inventory/hosts.staging.yml configure_docker_swarm.yml
     ...
     ```
 
-10. Delete `~/.ssh/known_hosts` as a precausion, as host RSA keys might have changed.
-11. Reboot all instances except `galadriel`:
+10. Delete `~/.ssh/known_hosts` as a precaution, as host RSA keys might have changed: `rm ~/.ssh/known_hosts`.
+11. Reboot all instances except `galadriel` (once more, note the `-i inventory/hosts.staging.yml` flag):
 
     ``` console
     $ ansible -i inventory/hosts.staging.yml 'all:!galadriel' -m reboot --become
@@ -130,7 +130,7 @@ To reset the staging setup:
     ```
 
 12. Reboot `galadriel`: `$ sudo reboot`.
-    This will disconnect your current SSH session.\
+    This will disconnect your current SSH session.
 
 13. Finally, [reconnect to the staging testbed.](#sshing-to-the-staging-setup)
-    Again, host keys might have changed, and thus you might have to edit your local `.ssh/known_hosts` to delete old keys.
+    Like before, host keys might have changed, and thus you might have to edit your local `.ssh/known_hosts` to delete old keys.
