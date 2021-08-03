@@ -38,3 +38,11 @@ For DNS we use a [private hosted zone in Route 53](https://docs.aws.amazon.com/R
 This zone is associated with the `ExPECA Staging Network` VPC and assigned the top-level domain `expeca`.
 When (re)creating the staging setup using the Ansible playbook, it automatically creates an `A` record on this zone for each instance, pairing the corresponding fully qualified domain name (e.g. `galadriel.expeca`) to the private static IP address assigned to it.
 This then allows for DNS lookups to all devices on the network from any instance.
+
+## Access to the testbed
+
+For basic access to and control of the testbed, we provide an `expeca` AWS account.
+The credentials for this account are in the `ansible/staging_auth.env` file in the [`KTH-EXPECA/TestbedConfig`](https://github.com/KTH-EXPECA/TestbedConfig) repository.
+
+The root AWS account is tied to me, Manuel Olguín Muñoz, [molguin@kth.se](mailto:molguin@kth.se).
+Please contact me for any change to the testbed which requires root access.
