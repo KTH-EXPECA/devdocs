@@ -42,3 +42,8 @@ radio-client-configs:
 ***Suggestion:*** Allow configuration in a single file OR in multiple files, for greater flexibility.
 
 ## Reference
+
+<iframe
+  src=https://kth-expeca.github.io/workload-definition-schema/definition.html
+  name="schemaref"
+  style="height:1000px;width:100%;border:none;overflow:hidden;">
