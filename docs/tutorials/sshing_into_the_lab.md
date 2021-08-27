@@ -2,7 +2,7 @@
 
 ## Overview
 
-- The ingress router `cirdan` listens for incoming SSH connections to the testbed on the address [`expeca.duckdns.org`](ssh://expeca.duckdns.org:2222), port `2222`.
+- The ingress router `cirdan` listens for incoming SSH connections to the testbed on the address [`testbed.expeca.proj.kth.se`](ssh://testbed.expeca.proj.kth.se:2222), port `2222`.
 
     - You can also use the testbed WAN IP address directly, `130.237.53.70`.
 
@@ -35,7 +35,7 @@ After generating the keys, your public key needs to be added to the cluster by s
 
     ``` text
     Host ExPECA # or whatever other name you wish to use to refer to this config
-        Hostname        expeca.duckdns.org  # alternatively, use the IP directly: 130.237.53.70
+        Hostname        testbed.expeca.proj.kth.se  # alternatively, use the IP directly: 130.237.53.70
         Port            2222
         IdentityFile    ~/.ssh/your_private_key # replace with your private key file name
         User            expeca  # alternatively, replace with your username
@@ -58,7 +58,7 @@ If for some reason you can't write to the `.ssh/config` file, you can specify al
 # -A enables SSH agent forwarding
 # -p specifies the target port
 # replace ~/.ssh/your_private_key with the path to your private key
-# optional: replace expeca.duckdns.org with 130.237.53.70
+# optional: replace testbed.expeca.proj.kth.se with 130.237.53.70
 # optional: replace expeca with your username on galadriel
 
 $ ssh -A -p 2222 -i ~/.ssh/your_private_key expeca@130.237.53.70 
