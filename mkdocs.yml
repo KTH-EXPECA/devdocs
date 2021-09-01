@@ -1,5 +1,6 @@
 ---
 site_name: EXPECA Testbed Developer Documentation
+site_url: https://expeca.proj.kth.se/devdocs/
 theme: 
   palette:
     scheme: default
