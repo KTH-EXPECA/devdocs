@@ -33,7 +33,7 @@ To change/add a binding for a host managed by Ansible (e.g. `galadriel` or `elro
 
 To change/add a binding for a host *not* managed by Ansible (such as the workload switch `glorfindel`), modify the variable `mgmt_net.additional_hosts` in the [`groupvars/all.yml` file.](https://github.com/KTH-EXPECA/TestbedConfig/blob/master/ansible/inventory/group_vars/all.yml)
 
-See [here for more details on our Ansible inventory.](/tutorials/ansible/)
+See [here for more details on our Ansible inventory.](ansible.md)
 
 ## Modifying DNS records
 
@@ -55,7 +55,8 @@ To change/add a record for a host managed by Ansible (e.g. `galadriel` or `elron
 - To set the target IP address: change the associated `ip` variable for the specified host.
 - To set the target hostname: rename the host by changing its name on the main inventory file, `inventory/hosts.yml`, as well as renaming all host variable files associated with it.
 
-See [here for more details on our Ansible inventory.](/tutorials/ansible/)
+<!-- See [here for more details on our Ansible inventory.](./ansible.md) -->
+[foo](./ansible.md)
 
 To change/add a record for a host *not* managed by Ansible (such as the workload switch `glorfindel`), modify the variable `mgmt_net.additional_hosts` in the [`groupvars/all.yml` file.](https://github.com/KTH-EXPECA/TestbedConfig/blob/master/ansible/inventory/group_vars/all.yml)
 

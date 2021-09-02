@@ -1,6 +1,8 @@
 ---
 site_name: EXPECA Testbed Developer Documentation
 site_url: https://expeca.proj.kth.se/devdocs/
+site_author: Manuel Olguín Muñoz
+use_directory_urls: false
 theme: 
   palette:
     scheme: default

@@ -17,7 +17,7 @@ The workflow for working on the staging setup looks like the following:
 ## Bringing up the staging setup
 
 Bringing up the staging setup needs to be done from a computer with access to your private SSH key associated with the testbed.
-Additionally, you need to have cloned the [`KTH-EXPECA/TestbedConfig`](http://github.com/KTH-EXPECA/TestbedConfig) repository and set up Ansible (see [here](/tutorials/ansible) for more details).
+Additionally, you need to have cloned the [`KTH-EXPECA/TestbedConfig`](http://github.com/KTH-EXPECA/TestbedConfig) repository and set up Ansible (see [here](./ansible.md) for more details).
 The steps are:
 
 1. `cd` into the `ansible` directory of the `KTH-EXPECA/TestbedConfig` repo.

@@ -118,10 +118,10 @@ It is structured in the following manner:
 
 #### Important note about the inventory
 
-The management network configuration [is directly tied to our Ansible inventory.](/tutorials/adding_dhcp_dns_bindings/)
+The management network configuration [is directly tied to our Ansible inventory.](./adding_dhcp_dns_bindings.md)
 In particular, **hostnames, DHCP bindings, and DNS records** are assigned directly from Ansible host aliases and host/group variables defined in the inventory.
 This means that any substantial change in the structure of the inventory, modification of host aliases, or change in any of the relevant host/group variables, will **probably require rebuilding of the management network**.
-For more details, see [here](/tutorials/adding_dhcp_dns_bindings/).
+For more details, see [here](./adding_dhcp_dns_bindings.md).
 
 
 ### Playbooks
