@@ -1,14 +1,14 @@
 # Fluent
 
-We use containerised version of [Fluentbit](https://fluentbit.io/) for logging and debugging. Fluentbit is the simpler version of [Fluentd](https://www.fluentd.org/) with much simpler configurations. For all the the anticipated tasks in the initial set-up, the capabilities of Fluentbit is sufficient.
+We use containerised versions of [Fluentbit](https://fluentbit.io/) for logging and debugging. Fluentbit is the simpler version of [Fluentd](https://www.fluentd.org/) with much easier configurations. For instance, unlike Fluentd, the configuration of Fluentbit is a simple YAML file. For all the the anticipated tasks in the initial set-up, the capabilities of Fluentbit is sufficient.
 
 
 ## Configuration
-We configure a fluentbit container in each of the workloads and clients to forward all the standard input logs to the fluentbit container configured on `Celeborn` logging PC. Before forwarding, the client containers convert the unstructured logs -if any- to a JSON format. It also adds an additional key denoting the hostname. The fluentbit container on the logging PC is configured to collect the logs from all the clients and append it to a file created within the docker volume.
+We configure a fluentbit container in each of the workloads and clients to forward the standard input to the fluentbit container configured on the logging PC - `Celeborn`. Before forwarding, the client containers convert the unstructured logs -if any- to a structured JSON format. It also adds an additional key denoting the hostname. Currently, the hostname is the container hostname, but the idea is to pass the hostname of the client on which the container is running. The fluentbit container inside the logging PC is configured to collect the logs from all the clients and append it to a file created within the docker volume.
 
-The files used for the configuration are given below. The contents are self explanatory.
+The files used for the configuration of the fluentbit container in `Celeborn` and the clients are given below separately. The contents of the file are self explanatory.
 
-### Server Configutation at `Celeborn`
+### Configuration in `Celeborn`
 - docker-compose.yml
 ```` bash
 version: "3.5"
@@ -54,7 +54,7 @@ ADD fluent-bit.conf /fluent-bit/etc/
     Path /fluent-bit/etc/
 ````
 
-### Server Configutation at Clients
+### Configuration in the clients
 - docker-compose.yml
 ```` bash
 version: "3.5"
@@ -131,7 +131,7 @@ ADD fluent-bit.conf /fluent-bit/etc/
     Decode_Field_As escaped_utf8 log
 ````
 
-## Deployement
+## Deployment
 
 Creating the above files in the logging PC is straightforward and easy and it is only a matter of bringing up the docker-compose with the standard `docker-compose up` command from the correct directory. 
 ```` bash
