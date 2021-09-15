@@ -23,9 +23,7 @@ In the `ansible` subdirectory of the [`KTH-EXPECA/TestbedConfig`](https://github
     ```
 
 3. All Ansible commands in this mode run inside the container, by default against the static Ansible configuration and inventory stored inside it.
-   However, the commands also mount the current directory inside the container, allowing the running of playbooks, roles, and even specifying custom temporary configurations and inventories, as long as these files reside in the current directory or a subdirectory thereof.
-
-   Examples:
+   However, the commands also mount the current directory inside the container, allowing the running of playbooks, roles, and even specifying custom temporary configurations and inventories, as long as these files reside in the current directory or a subdirectory thereof. Examples:
 
     ```bash
     # simply runs the ping module against the elrond host 
