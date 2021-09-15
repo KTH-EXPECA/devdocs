@@ -3,6 +3,138 @@
 We use [Red Hat Ansible](https://www.ansible.com/) for centralized configuration of the testbed from `galadriel`.
 This page presents an overview and "crash course" in using it on the ExPECA testbed; for more details, head to the [official documentation](https://docs.ansible.com/).
 
+## Containerized Setup
+
+In order to avoid issues with mismatching software versions and configurations, we have a containerized setup for general usage of Ansible on the testbed.
+It consists of a Docker image containing Ansible, required Ansible Galaxy collections, and the necessary configuration for use on the testbed (`ansible.cfg` and the [inventory](#the-inventory)).
+This Docker image can be found as [expeca/ansible](https://hub.docker.com/r/expeca/ansible) on [Docker Hub](https://hub.docker.com).
+
+### Usage
+
+In the `ansible` subdirectory of the [`KTH-EXPECA/TestbedConfig`](https://github.com/KTH-EXPECA/TestbedConfig/tree/master/ansible) repository you will find a script named [`activate_config_env`](https://github.com/KTH-EXPECA/TestbedConfig/tree/master/ansible/activate_config_env) which can be `source`'d to activate a "virtual environment" under which all Ansible commands will be run inside the container:
+
+1. Navigate to the `ansible` subdirectory of the [`KTH-EXPECA/TestbedConfig`](https://github.com/KTH-EXPECA/TestbedConfig/tree/master/ansible) repository.
+2. Source the `activate_config_env` script:
+
+    ``` bash
+    $ source activate_config_env
+    INFO: Activating config container environment.
+    (config) $
+    ```
+
+3. All Ansible commands in this mode run inside the container, by default against the static Ansible configuration and inventory stored inside it.
+   However, the commands also mount the current directory inside the container, allowing the running of playbooks, roles, and even specifying custom temporary configurations and inventories, as long as these files reside in the current directory or a subdirectory thereof.
+
+   Examples:
+
+    ```bash
+    # simply runs the ping module against the elrond host 
+    # defined in the container inventory
+    (config) $ ansible elrond -m ping
+    INFO: Running Ansible in config container!
+    ------------------------------------------
+    elrond | SUCCESS => {
+        "ansible_facts": {
+            "discovered_interpreter_python": "/usr/bin/python3"
+        },
+        "changed": false,
+        "ping": "pong"
+    }
+    ```
+
+    ``` bash
+    # runs the configure_auth.yml playbook, which resides under the current
+    # directory OUTSIDE of the container, by mounting it inside.
+    # the playbook is still run against the container inventory though.
+    (config) $ ansible-playbook configure_auth.yml 
+    INFO: Running Ansible in config container!
+    ------------------------------------------
+
+    PLAY [Update auth for the expeca user] *********************************************************
+
+    TASK [Gathering Facts] *************************************************************************
+    ok: [elrond]
+    ok: [celeborn]
+    ok: [galadriel]
+    ...
+    ```
+
+    ``` bash
+    # overrides the inventory built into the container by specifying the
+    # -i flag, in order to -- for instance -- test a new host config.
+    # note that the new inventory must be located under the current directory
+    # or inside a subfolder of it, and the path to it specified relatively.
+    (config) $ ansible-playbook -i custom_inventory/hosts.yml configure_auth.yml 
+    INFO: Running Ansible in config container!
+    ------------------------------------------
+
+    PLAY [Update auth for the expeca user] *********************************************************
+
+    TASK [Gathering Facts] *************************************************************************
+    ok: [elrond]
+    ok: [celeborn]
+    ok: [galadriel]
+    ...
+    ```
+
+4. The config environment also provides a `config-container-cmd` to run arbitrary commands inside the continer:
+
+    ``` bash
+    (config) $ config-container-cmd bash
+    INFO: Running command in config container!
+    ------------------------------------------
+    root@galadriel:/opt/workdir#
+    ```
+
+5. When finished using the config environment, you can exit it by running `deactivate_config_env`:
+
+    ``` bash
+    (config) $ deactivate_config_env
+    INFO: Deactivating config container environment.
+    $ 
+    ```
+
+#### Inner workings of the environment
+
+The `activate_config_env` file is a Bash/Zsh source file which defines aliases for the Ansilbe CLI commands, as well as a function `deactivate_config_env` which resets everything to the state it was before entering the environment.
+The defined aliases replace the normal Ansible commands with commands which:
+
+1. Pull the required Docker image, if needed.
+2. Run the container in the following manner:
+
+    ``` bash
+    docker run --rm -it --network host -e SSH_AUTH_SOCK=/ssh-agent \
+      -v ${SSH_AUTH_SOCK}:/ssh-agent:rw -v \${PWD}:/opt/workdir:rw ${IMAGE}
+    ```
+
+    Explanation:
+
+      - `--network host`: use the host network interfaces directly.
+      - `-e SSH_AUTH_SOCK=/ssh-agent -v ${SSH_AUTH_SOCK}:/ssh-agent:rw`: forwards the host SSH-agent to the container.
+          This is of course necessary to allow Ansible inside the container to authenticate agains the testbed hosts.
+      - `-v \${PWD}:/opt/workdir:rw` mounts the current working directory inside the container, to allow access to playbooks, roles, and custom configurations without having to rebuild the container.
+
+3. Finally, run the requested command inside the container.
+
+### Updating the setup
+
+In case the static Ansible configuration/inventory inside the container needs to be updated, simply make any required modifications in the `ansible` subdirectory of the [`KTH-EXPECA/TestbedConfig`](https://github.com/KTH-EXPECA/TestbedConfig/tree/master/ansible) repository.
+Then, use the provided `Makefile` to build and push the container image to Docker Hub:
+
+``` bash
+$ cd TestbedConfig/ansible
+
+# make your changes
+# then build and push using GNU Make
+
+$ make ansible-container
+... 
+```
+
+## Bare-bones 
+
+A bare-bones setup should only be used when strictly needed, prefer to use the containerized deployment described above to avoid configuration mismatch issues.
+
 ## Installation
 
 Ansible should be installed from first boot on `galadriel`.
