@@ -38,9 +38,7 @@ In the `ansible` subdirectory of the [`KTH-EXPECA/TestbedConfig`](https://github
         "changed": false,
         "ping": "pong"
     }
-    ```
 
-    ``` bash
     # runs the configure_auth.yml playbook, which resides under the current
     # directory OUTSIDE of the container, by mounting it inside.
     # the playbook is still run against the container inventory though.
@@ -55,9 +53,7 @@ In the `ansible` subdirectory of the [`KTH-EXPECA/TestbedConfig`](https://github
     ok: [celeborn]
     ok: [galadriel]
     ...
-    ```
 
-    ``` bash
     # overrides the inventory built into the container by specifying the
     # -i flag, in order to -- for instance -- test a new host config.
     # note that the new inventory must be located under the current directory
