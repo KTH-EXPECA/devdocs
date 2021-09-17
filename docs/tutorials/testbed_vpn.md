@@ -57,11 +57,11 @@ To configure a dedicated IPSec tunnel for a client/user on the ingress router:
 4. Configure the tunnel Basic Settings:
 
      - Enable: Yes
-     - Tunnel Name: Choose an appropriate name
+     - Tunnel Name: Choose an appropriate name.
        A good naming scheme is something akin to `IPSec_<user name>`
      - IPSec Profile: IPSecVPNTest
      - Interface: WAN
-     - Pre-shared Key: Choose an appropriate PSK for the tunnel
+     - Pre-shared Key: Choose an appropriate PSK for the tunnel.
        Note that it **must** be over 20 characters long (some clients -- e.g. `strongSwan` -- refuse to work with PSKs shorter than that)
      - Local Identifier: Local WAN IP; `130.237.53.70`
      - Remote Identifier: USER FQDN; `<username>.expeca.proj.kth.se`
