@@ -17,8 +17,34 @@ The workflow for working on the staging setup looks like the following:
 ## Bringing up the staging setup
 
 Bringing up the staging setup needs to be done from a computer with access to your private SSH key associated with the testbed.
-Additionally, you need to have cloned the [`KTH-EXPECA/TestbedConfig`](http://github.com/KTH-EXPECA/TestbedConfig) repository and set up Ansible (see [here](./ansible.md) for more details).
-The steps are:
+Additionally, you need to have cloned the [`KTH-EXPECA/TestbedConfig`](http://github.com/KTH-EXPECA/TestbedConfig) repository, and either have set up Docker to use our [Ansible container](./ansible.md#containerized-setup), or have set up [bare-bones Ansible](./ansible.md#bare-bones).
+
+### Using the Ansible container
+
+This is the easiest way of interacting with the AWS setup:
+
+1. `cd` into the `ansible` directory of the `KTH-EXPECA/TestbedConfig` repo.
+2. Execute the `./manage_aws_staging.sh` shell script and choose the start action:
+
+    ``` bash
+    .../KTH-EXPECA/TestbedConfig/ansible $ ./manage_aws_staging.sh             
+    INFO: Activating config container environment.
+    INFO: Running Ansible in config container!
+    ------------------------------------------
+    Please select action to take (create/start/stop/terminate): start
+    ...
+    ```
+
+3. Ansible will proceed to bring up the testbed, and will output the public address of `galadriel` when finished:
+
+    ``` text
+    ...
+    [manage_aws : Output remote address]
+    Remote connection address: <something>.eu-north-1.compute.amazonaws.com. Press any key to continue:
+    ...
+    ```
+
+### Using bare-bones Ansible
 
 1. `cd` into the `ansible` directory of the `KTH-EXPECA/TestbedConfig` repo.
 2. Source the `staging_auth.env` file to register the necessary AWS keys: `source ./staging_auth.env`
@@ -69,12 +95,21 @@ ssh <something>.eu-north-1.compute.amazonaws.com
 
 To bring down the staging setup, follow the same [instructions as for bringing it up](#bringing-up-the-staging-setup), but change the desired action to `stop`:
 
-``` console
+``` bash
+.../KTH-EXPECA/TestbedConfig/ansible $ ./manage_aws_staging.sh             
+INFO: Activating config container environment.
+INFO: Running Ansible in config container!
+------------------------------------------
+Please select action to take (create/start/stop/terminate): stop
+...
+```
+
+<!-- ``` console
 # We specify ANSIBLE_CONFIG here just as a precausion; no need to include it if Ansible doesn't complain when omitting it.
 
 $ ANSIBLE_CONFIG=ansible.cfg ansible-playbook -i inventory/hosts.staging.yml manage_ec2_aws.yml 
 Please select action to take (create/start/stop/terminate): stop
-```
+``` -->
 
 ## Resetting the staging setup
 
@@ -83,23 +118,27 @@ Note that this will return the instances to a base configuration, and any work d
 
 To reset the staging setup:
 
-1. Use the `manage_ec2_aws.yml` playbook to `terminate` the EC2 instances (note that this **will delete any stored data on them that doesn't correspond to the base setup**).
-    The playbook will ask for confirmation 3 times!
+1. Select the `terminate` option to destroy the EC2 instances (note that this **will delete any stored data on them that doesn't correspond to the base setup**).
+    You will be asked for confirmation 3 times!
 
-    ``` console
-    # We specify ANSIBLE_CONFIG here just as a precausion; no need to include it if Ansible doesn't complain when omitting it.
-
-    $ ANSIBLE_CONFIG=ansible.cfg ansible-playbook -i inventory/hosts.staging.yml manage_ec2_aws.yml 
+    ``` bash
+    .../KTH-EXPECA/TestbedConfig/ansible $ ./manage_aws_staging.sh             
+    INFO: Activating config container environment.
+    INFO: Running Ansible in config container!
+    ------------------------------------------
     Please select action to take (create/start/stop/terminate): terminate
+    ...
     ```
 
-2. Use the `manage_ec2_aws.yml` playbook to re-`create` the EC2 instances:
+2. Select the `create` option to recreate the EC2 instances:
     
-    ``` console
-    # We specify ANSIBLE_CONFIG here just as a precausion; no need to include it if Ansible doesn't complain when omitting it.
-
-    $ ANSIBLE_CONFIG=ansible.cfg ansible-playbook -i inventory/hosts.staging.yml manage_ec2_aws.yml 
+    ``` bash
+    .../KTH-EXPECA/TestbedConfig/ansible $ ./manage_aws_staging.sh             
+    INFO: Activating config container environment.
+    INFO: Running Ansible in config container!
+    ------------------------------------------
     Please select action to take (create/start/stop/terminate): create
+    ...
     ```
 
 3. After the instances come back up, they will be in an useable but *not* fully configured state yet.
