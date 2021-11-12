@@ -183,8 +183,10 @@ docker-compose -f /home/expeca/Fluent/docker-compose.yml up --build --force-recr
 ````
 In case if one needs to see the logs live, the following `tail` command can be used.
 ```` bash
-sudo tail -f /var/lib/docker/volumes/fluent_fluentVol/_data/etc/output.log
+sudo tail -f <path-to-file>
 ````
+Path to the file in case of a docker volume is /var/lib/docker/volumes/fluent_fluentVol/_data/log
+
 
 However, doing this in the client is not so easy due to the number of clients. Hence, we use Ansible to copy the files to the respective locations in the clients. This is particularly useful when one has to make slight modifications to the files in each and every client. 
 
