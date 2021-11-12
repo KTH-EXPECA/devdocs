@@ -25,9 +25,13 @@ services:
       - "24225:24225"
       - "24225:24225/udp"
     volumes:
-      - fluentVol:/fluent-bit
-volumes:
-        fluentVol:
+      - /home/expeca/Fluent/Logs:/fluent-bit/log:rw
+        #Enable above  mapping to use Docker Mount
+        #Enable below mapping and definition to use Docker Volumes
+        #- fluentVol:/fluent-bit
+#volumes: 
+   #fluentVol:
+        
 ````
 
 - Dockerfile 
