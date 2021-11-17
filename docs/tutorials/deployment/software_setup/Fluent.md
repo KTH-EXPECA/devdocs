@@ -25,7 +25,7 @@ services:
       - "24225:24225"
       - "24225:24225/udp"
     volumes:
-      - /home/expeca/Fluent/Logs:/fluent-bit/log:rw
+      - /home/expeca/Fluent/${DIRNAME}:/fluent-bit/log:rw
         #Enable above  mapping to use Docker Mount
         #Enable below mapping and definition to use Docker Volumes
         #- fluentVol:/fluent-bit
@@ -97,6 +97,7 @@ ADD fluent-bit.conf /fluent-bit/etc/
     Path /fluent-bit/log/
 
 ````
+
 
 ### Configuration in the clients
 - docker-compose.yml
@@ -181,6 +182,11 @@ Creating the above files in the logging PC is straightforward and easy and it is
 ```` bash
 docker-compose -f /home/expeca/Fluent/docker-compose.yml up --build --force-recreate -d
 ````
+However, this assumes the presence of an updated environment file. Note that in the `docker-compose.yml` file, we used the environment variable `DIRNAME` to create a dynamic directory during the runtime to manage various logs. This environment variable will be taken from the default `.env` file kept in the same path as the compose file. This can be updated according to necessity. For instance, to save the logs in a directory structure based on current date-time, one can use the below command to update the environment file and run create the container.
+```` bash
+echo "DIRNAME=$(date +"%y-%m-%d-%H-%M-%S")" > .env && docker-compose -f /home/expeca/Fluent/FluentCeleborn/docker-compose.yml up --build --force-recreate -d
+````
+
 In case if one needs to see the logs live, the following `tail` command can be used.
 ```` bash
 sudo tail -f <path-to-file>
