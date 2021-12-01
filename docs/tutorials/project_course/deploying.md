@@ -210,4 +210,75 @@ Once the setup is working on AWS we can move on to deploying on the testbed.
 
 ## Deployment on the testbed through Ainur
 
-TODO
+### Log into Galadriel using the provided SSH keys
+
+Your username is `project2021`.
+No password is needed to login, only the SSH key.
+
+Note that SSH is listening on a non-default port, `2222/tcp`, and that you will NEED to forward your SSH keys (using the `-A` flag).
+
+``` bash
+ssh -A -i .ssh/project_rsa project2021@testbed.expeca.proj.kth.se -p 2222
+```
+
+Alternatively, you can put this configuration into your `~/.ssh/config` file for persistent configuration:
+
+``` ssh
+...
+
+Host testbed.expeca.proj.kth.se
+    Hostname testbed.expeca.proj.kth.se
+    Port 2222
+    IdentityFile ~/.ssh/id_expeca_testbed
+    User project2021
+    ForwardAgent yes
+```
+
+Then, you can just do
+
+``` bash
+ssh testbed.expeca.proj.kth.se
+```
+
+### Clone your fork of Ainur
+
+Note that you will need to use branch `dev_merge`.
+
+``` bash
+$ git clone <your Ainur fork>
+...
+$ cd Ainur
+~/Ainur
+$ git checkout dev_merge
+Switched to branch dev_merge. 
+```
+
+### Prepare the Python environment and install necessary packages
+
+``` bash
+$ virtualenv --python=python3.8 venv
+...
+$ source venv/bin/activate
+
+$ pip install -U pip -Ur requirements.txt
+...
+```
+
+### Make sure all the hosts have your Docker images
+
+I created a script to automatically pull your Docker images on all the hosts at once.
+You can run it like so:
+
+``` bash
+$ python pull_image.py <image_name>
+...
+```
+
+### Run your workload
+
+Go!
+
+### Collect your data
+
+Once the workload has finished (or timed out), collected data can be found under `/opt/expeca/experiments/<experiment name>`.
+If you get a permission denied error when trying to access the files, just use `sudo` (you will not be asked for a password).
