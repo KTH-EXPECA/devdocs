@@ -229,7 +229,7 @@ Alternatively, you can put this configuration into your `~/.ssh/config` file for
 Host testbed.expeca.proj.kth.se
     Hostname testbed.expeca.proj.kth.se
     Port 2222
-    IdentityFile ~/.ssh/id_expeca_testbed
+    IdentityFile ~/.ssh/project_rsa
     User project2021
     ForwardAgent yes
 ```
