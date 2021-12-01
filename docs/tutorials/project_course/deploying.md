@@ -276,7 +276,11 @@ $ python pull_image.py <image_name>
 
 ### Run your workload
 
-Go!
+Use a modified version of the `end_to_end.py` file as discussed:
+
+``` bash
+$ python end_to_end_modified.py
+```
 
 ### Collect your data
 
