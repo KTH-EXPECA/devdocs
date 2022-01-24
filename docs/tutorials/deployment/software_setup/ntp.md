@@ -1,12 +1,11 @@
 # Time synchronization
 
 Time synchronization within the cluster is achieved through the [Network Time Protocol (NTP)](http://www.ntp.org/).
-The management server hosts an NTP server instance that all devices in the network synchronize with.
 
 ## Setting up the NTP server
 
 An Ansible Playbook YAML file for automatic set-up of the NTP server can be found in the [KTH-EXPECA/TestbedConfig](https://github.com/KTH-EXPECA/TestbedConfig/tree/master/services/ntp/playbooks/set_up_ntp.yml) repository.
-Run it by executing `ansible-playbook set_up_ntp.yml` on the command line on the management server (`galadriel`).
+Run it by executing `ansible-playbook set_up_ntp.yml` on the command line.
 
 The playbook contains two plays:
 
@@ -22,7 +21,7 @@ The playbook contains two plays:
 Use Ansible together with the `ntpdate` command to check the synchronization status across the cluster:
 
 ```console
-$ ansible all -a 'ntpdate -q galadriel.expeca.org'
+$ ansible all -a 'ntpdate -q thingol.expeca.org'
 192.168.1.102 | CHANGED | rc=0 >>
 server 192.168.1.100, stratum 2, offset -0.000110, delay 0.02621
 21 Jun 17:10:21 ntpdate[109322]: adjust time server 192.168.1.100 offset -0.000110 sec
@@ -32,7 +31,7 @@ server 192.168.1.100, stratum 2, offset -0.000110, delay 0.02621
 If `ntpdate` instead outputs the following, it is likely that the clock is not yet synchronized:
 
 ```console
-$ ansible all -a 'ntpdate -q galadriel.expeca.org'
+$ ansible all -a 'ntpdate -q thingol.expeca.org'
 192.168.1.102 | CHANGED | rc=0 >>
 server 192.168.1.100, stratum 2, offset -0.000110, delay 0.02621
 21 Jun 17:10:21 ntpdate[109322]: no server suitable for synchronization found
