@@ -197,36 +197,26 @@ We use an Ansible configuration directory structure which somewhat follows the [
 It looks like this:
 
 ``` text
-ansible/
+ansible
 ├── ansible.cfg
-├── inventory/
-│   ├── hosts.yml
-│   ├── group_vars/
-│   │   ├── all.yml
-│   │   ├── clients.yml
-│   │   └── radiohosts.yml
-│   └── host_vars/
-│       ├── celeborn.yml
-│       ├── elrond.yml
-│       ├── finarfin.yml
-│       ├── fingolfin.yml
-│       ├── galadriel.yml
-│       ├── workload-client-00.yml
-│       ├── ...
-│       └── workload-client-12.yml
-├── <playbook1>.yml
+├── inventory
+│   ├── group_vars
+│   │   └── all.yml
+│   ├── hosts.yml
+├── requirements.txt
+├── requirements.yml
+├── roles
+│   ├── role1
+│   │   └── ...
+│   ├── ...
+│   │   └── ...
+│   └── roleN
+│       └── ...
+├── playbook1.yml
 ├── ...
-├── <playbookN>.yml
-└── roles/
-    ├── <role1>/
-    │   ├── tasks/
-    │   │   └── main.yml
-    │   ├── vars/
-    │   │   └── main.yml
-    │   └── ...
-    ├── <role2>/
-    ├── ...
-    └── <roleN>/
+├── playbookN.yml
+└── vars
+    └── auth.yml
 ```
 
 ### The inventory
@@ -234,20 +224,19 @@ ansible/
 The [Ansible inventory](https://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html) for the testbed is contained under `inventory/`
 It is structured in the following manner:
 
-- `inventory/hosts.yml` contains the base structure of the hosts of the network.
-  No variables are set here, only the host names and groups.
+- `inventory/hosts.yml` contains the base structure of the hosts of the network and some variables.
 - `inventory/group_vars` contains the common and/or default variables for each host group.
   Each file corresponds to the group with the same name in the `hosts.yml` file.
   The most interesting of these files is the one corresponding to the `all` group, which contains defaults and common variables for *all* the hosts.
-- Finally, `inventory/host_vars` contains one YAML file per host in the configuration.
+- Finally, `inventory/host_vars` potentially contains one YAML file per host in the configuration.
   These files contain Ansible variables specific to each host in the testbed, some of which may override the inherited variables from the corresponding group.
 
 #### Important note about the inventory
 
 The management network configuration [is directly tied to our Ansible inventory.](./adding_dhcp_dns_bindings.md)
-In particular, **hostnames, DHCP bindings, and DNS records** are assigned directly from Ansible host aliases and host/group variables defined in the inventory.
+In particular, **hostnames, static IPs, and DNS records** are assigned directly from Ansible host aliases and host/group variables defined in the inventory.
 This means that any substantial change in the structure of the inventory, modification of host aliases, or change in any of the relevant host/group variables, will **probably require rebuilding of the management network**.
-For more details, see [here](./adding_dhcp_dns_bindings.md).
+For more details, see [here](./ips_dns_bindings.md).
 
 
 ### Playbooks
