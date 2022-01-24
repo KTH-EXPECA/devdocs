@@ -20,6 +20,9 @@ We use sub-ranges under this block to semantically separate devices on the netwo
 - `192.168.255.[0-254]`: reserved for external devices (e.g. personal laptops) connected to the network.
   *NOTE: This range is assigned dynamically by the router, using DHCP.*
 
+Additionally, we reserve two external ranges, `172.16.0.0/24` and `172.16.1.0/24`, which are assigned to the VPN links to AWS.
+These ranges should *never* be used for anything else; this will cause routing conflicts inside the network, as all devices are configured to use the VPN gateways to reach them.
+
 ## IP address bindings
 
 | FQDN 	| IP 	| Function(s) 	|
