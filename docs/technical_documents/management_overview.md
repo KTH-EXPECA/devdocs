@@ -1,9 +1,40 @@
-# Management Network and Hardware Overview
+# Management Network Overview
 
 This page details the current setup for the management network, used for the *alpha* version of the testbed.
-**PLEASE READ THIS PAGE CAREFULLY IN ITS ENTIRETY BEFORE MAKING CHANGES TO THE NETWORK INFRASTRUCTURE**
 
-## Physical Setup
+**Please read this page carefully before making changes to the network infrastructure**
+
+
+![](./assets/ManagementNetworkAlpha.png)
+
+The testbed can be accessed from the internet at [`testbed.expeca.proj.kth.se`](ssh://testbed.expeca.proj.kth.se:2222) or [`130.237.53.70`](ssh://130.237.53.70:2222), on SSH port `2222`.
+
+The management network is statically addressed using a `192.168.0.0/16` CIDR block.
+We use sub-ranges under this block to semantically separate devices on the network:
+
+- `192.168.0.[1-255]`: reserved for network infrastructure devices, such as routers, switches, and gateways.
+- `192.168.1.[0-255]`: reserved for "core" functionality devices, such as `galadriel` and `elrond`.
+- `192.168.2.[0-255]`: reserved for radio hosts.
+- `192.168.3.[0-255]`: reserved for workload clients.
+- `192.168.4.[0-255]`: reserved for Software-Defined Radios.
+- `192.168.255.[0-254]`: reserved for external devices (e.g. personal laptops) connected to the network.
+  *NOTE: This range is assigned dynamically by the router, using DHCP.*
+
+## IP address bindings
+
+| FQDN 	| IP 	| Function(s) 	|
+|---	|---	|---	|
+| `cirdan.expeca` 	| `192.168.0.1` 	| Gateway, NAT, firewall 	|
+| `glorfindel.expeca` 	| `192.168.0.2` 	| Managed workload network switch 	|
+| `thingol.expeca` 	| `192.168.0.3` 	| DNS server, NTP server, VPN gateway 	|
+| `olwe.expeca` 	| `192.168.0.4` 	| VPN gateway 	|
+| `galadriel.expeca` 	| `192.168.1.1` 	| Ainur host 	|
+| `elrond.expeca` 	| `192.168.1.2` 	| Cloudlet 	|
+| `fingolfin.expeca` 	| `192.168.2.1` 	| SDR host 	|
+| `finarfin.expeca` 	| `192.168.2.1` 	| SDR host 	|
+| `workload-client-[00-12].expeca` 	| `192.168.3.[0-12]` 	| Workload client 	|
+
+<!-- ## Physical Setup
 
 ![](./assets/AlphaHardwareSetup_Annotated.png)
 
@@ -17,67 +48,4 @@ This page details the current setup for the management network, used for the *al
 | **6** 	| Custom Build 2 	| Radio Host 2 	| finarfin.expeca 	| 192.168.1.52 	| - 	|
 | **7** 	| NETGEAR JGS524v2 Switch 	| Management<br>Network Switch 	| - 	| - 	| - 	|
 | **8** 	| 13x Raspberry Pi 4B 	| Workload<br>Clients 	| workload-client-[00:12].expeca 	| 192.168.1.1[00:12] 	| - 	|
-| **9** 	| Cisco SG220-50 Switch	| Workload<br>Network Switch 	| glorfindel.expeca 	| 192.168.1.5 	| - 	|
-
-
-## Network Configuration
-
-![](./assets/ManagementNetworkAlpha.png)
-
-The management network is configured as follows:
-
-- The ingress router `cirdan` is configured as a NAT gateway.
-    It manages two VLANs (see image below for more details):
-
-    - VLAN1 is only assigned to ethernet port 1 (untagged), and is excluded from all other ports.
-        This VLAN corresponds to the actual management network.
-        Note that the router only acts as a switch and NAT for this VLAN, as DHCP and DNS are handled by `galadriel`.
-    - VLAN2 is assigned to all other ports (untagged), and is excluded from port 1.
-        This VLAN is intended for external devices we might connect to manage the cluster (laptops, for instance).
-        DHCP for this VLAN is handled by `cirdan` (DNS is redirected to `galadriel` however).
-
-    ![](./assets/cirdan_VLANs.png)
-
-- As mentioned above, on the management network, both DHCP *and* DNS are handled by `galadriel`.
-
-    - We use [Pi-Hole](https://pi-hole.net/) + [Unbound DNS](https://www.nlnetlabs.nl/projects/unbound/about/) as our integrated DHCP+DNS solution (with the added benefit of ad-blocking thanks to Pi-Hole).
-        These are deployed together as two containerized services with `docker-compose`, see [here](https://docs.pi-hole.net/guides/dns/unbound/) and [here](https://hub.docker.com/r/klutchell/unbound), as well as our [Ansible role for this](https://github.com/KTH-EXPECA/TestbedConfig/blob/master/ansible/roles/pihole_dhcp_dns/tasks/main.yml).
-    - See [here](../tutorials/adding_dhcp_dns_bindings.md#adding-dhcp-bindings-and-dns-records) for details on how to modify the DHCP and/or DNS bindings.
-
-- The workload switch, `glorfindel`, is connected to the management network through an ethernet port, `GE1`, which is completely separate and isolated from the rest of its ports through the use of VLANs.
-    The `GE1` port is set to `Access` mode, and is assigned to VLAN1 (untagged) on this switch; furthermore it is forbidden from joining any other VLANs.
-    This is to avoid accidental management network traffic polluting the workload network.
-
-- Finally, `galadriel` is also configured as an NTP server for the network, using a containerized [`chrony` instance](https://hub.docker.com/r/cturra/ntp/).
-    Devices sync to this server using `systemd-timesyncd`.
-    See our [Ansible role](https://github.com/KTH-EXPECA/TestbedConfig/blob/master/ansible/roles/ntp/tasks/main.yml) for more details.
-<!-- <img src="../../assets/WorkloadNetworkAlpha.png" width="450"> -->
-
-<!-- ## Auth and remote access configuration
-
-SSH access to the network is exposed through port `2222/tcp` of the ingress router at `130.237.53.70`; this port is redirected internally to the SSH daemon listening on port `22/tcp` of the management server `galadriel.expeca`.
-Once inside the network, you can [pivot](#pivoting-into-hosts-from-management-server-using-agent-forwarding) into any of the other hosts, all of which have SSH daemons listening on port `22/tcp`.
-
-For security, remote access is **only** allowed through *[public key authentication](https://wiki.archlinux.org/title/SSH_keys)*.
-All devices have a single default user `expeca`, which has no password, and `sudo` is configured for full passwordless access for this user.
-The management server `galadriel.expeca` additionally has a user for each member of the group; usernames are the same as the respective group member's KTH ID.
-These users also have full passwordless `sudo` privileges.
-
-### Pivoting into hosts using agent forwarding
-
-For security reasons, do not copy your private key to the management host. Instead, use [SSH Agent Forwarding](https://docs.github.com/en/developers/overview/using-ssh-agent-forwarding).
-
-1. If not done already, initialize the SSH Agent and add your key:
-    - For Mac OS X, [see here.](https://rob.cr/blog/using-ssh-agent-mac-os-x/)
-    - For Linux, [see here.](https://www.cyberciti.biz/faq/how-to-set-up-ssh-keys-on-linux-unix/)
-	
-2. When connecting to the management host, forward your SSH Agent:
-    - On the command line, use the `-A` flag: `#!bash ssh expeca@130.237.53.70 -p 2222 -A`.
-    - Add an entry to your `.ssh/config` file:
-
-            Host ExpecaManagement 130.237.53.70
-                Hostname 130.237.53.70
-                Port 2222
-                IdentityFile ~/.ssh/your_ssh_private_key
-                User expeca
-                ForwardAgent yes -->
+| **9** 	| Cisco SG220-50 Switch	| Workload<br>Network Switch 	| glorfindel.expeca 	| 192.168.1.5 	| - 	| -->
