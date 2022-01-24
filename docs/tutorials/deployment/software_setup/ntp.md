@@ -21,7 +21,7 @@ The playbook contains two plays:
 Use Ansible together with the `ntpdate` command to check the synchronization status across the cluster:
 
 ```console
-$ ansible all -a 'ntpdate -q thingol.expeca.org'
+$ ansible all -a 'ntpdate -q thingol.expeca'
 192.168.1.102 | CHANGED | rc=0 >>
 server 192.168.1.100, stratum 2, offset -0.000110, delay 0.02621
 21 Jun 17:10:21 ntpdate[109322]: adjust time server 192.168.1.100 offset -0.000110 sec
@@ -31,7 +31,7 @@ server 192.168.1.100, stratum 2, offset -0.000110, delay 0.02621
 If `ntpdate` instead outputs the following, it is likely that the clock is not yet synchronized:
 
 ```console
-$ ansible all -a 'ntpdate -q thingol.expeca.org'
+$ ansible all -a 'ntpdate -q thingol.expeca'
 192.168.1.102 | CHANGED | rc=0 >>
 server 192.168.1.100, stratum 2, offset -0.000110, delay 0.02621
 21 Jun 17:10:21 ntpdate[109322]: no server suitable for synchronization found
