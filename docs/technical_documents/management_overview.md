@@ -34,7 +34,8 @@ These ranges should *never* be used for anything else; this will cause routing c
 | `galadriel.expeca` 	| `192.168.1.1` 	| Ainur host 	|
 | `elrond.expeca` 	| `192.168.1.2` 	| Cloudlet 	|
 | `fingolfin.expeca` 	| `192.168.2.1` 	| SDR host 	|
-| `finarfin.expeca` 	| `192.168.2.1` 	| SDR host 	|
+| `finarfin.expeca` 	| `192.168.2.2` 	| SDR host 	|
+| `forlong.expeca` | `192.168.2.3` | SDR host |
 | `workload-client-[00-12].expeca` 	| `192.168.3.[0-12]` 	| Workload client 	|
 
 <!-- ## Physical Setup
