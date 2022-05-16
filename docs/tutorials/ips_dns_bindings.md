@@ -56,7 +56,7 @@ nameserver 192.168.0.3  # example
 search expeca
 
 # verify that systemd-resolved is using the local container as DNS server
-$ sudo system-resolved --status
+$ sudo systemd-resolved --status
 Global
        LLMNR setting: no                  
 MulticastDNS setting: no                  
