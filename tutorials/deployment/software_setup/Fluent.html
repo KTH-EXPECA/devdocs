@@ -1,0 +1,1113 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Manuel Olguín Muñoz">
+      
+      
+        <link rel="canonical" href="https://expeca.proj.kth.se/devdocs/tutorials/deployment/software_setup/Fluent.html">
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.15">
+    
+    
+      
+        <title>Fluent - EXPECA Testbed Developer Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.c382b1dc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.cc9b2e1e.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#4051b5">
+        
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Ubuntu";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../css/timeago.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#fluent" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../index.html" title="EXPECA Testbed Developer Documentation" class="md-header__button md-logo" aria-label="EXPECA Testbed Developer Documentation" data-md-component="logo">
+      
+  <img src="../../../assets/kth_logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EXPECA Testbed Developer Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Fluent
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/KTH-EXPECA/devdocs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    KTH-EXPECA/devdocs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../../index.html" class="md-tabs__link">
+      Welcome
+    </a>
+  </li>
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../sshing_into_the_lab.html" class="md-tabs__link md-tabs__link--active">
+        Tutorials
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../technical_documents/hardware_inventory.html" class="md-tabs__link">
+        Technical documents
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../../notes_for_the_future.html" class="md-tabs__link">
+      Notes for the future
+    </a>
+  </li>
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../index.html" title="EXPECA Testbed Developer Documentation" class="md-nav__button md-logo" aria-label="EXPECA Testbed Developer Documentation" data-md-component="logo">
+      
+  <img src="../../../assets/kth_logo.png" alt="logo">
+
+    </a>
+    EXPECA Testbed Developer Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/KTH-EXPECA/devdocs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    KTH-EXPECA/devdocs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../index.html" class="md-nav__link">
+        Welcome
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Tutorials
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Tutorials" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Tutorials
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sshing_into_the_lab.html" class="md-nav__link">
+        Accessing the lab remotely
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adding_documentation.html" class="md-nav__link">
+        Editing documentation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ansible.html" class="md-nav__link">
+        Ansible
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ips_dns_bindings.html" class="md-nav__link">
+        Setting IP addresses and DNS bindings
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_5" type="checkbox" id="__nav_2_5" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_5">
+          Deployment
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Deployment" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_5">
+          <span class="md-nav__icon md-icon"></span>
+          Deployment
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_5_1" data-md-state="indeterminate" type="checkbox" id="__nav_2_5_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_5_1">
+          Hardware setup
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Hardware setup" data-md-level="3">
+        <label class="md-nav__title" for="__nav_2_5_1">
+          <span class="md-nav__icon md-icon"></span>
+          Hardware setup
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hardware_setup/raspberrypis.html" class="md-nav__link">
+        Setting up the Raspberry Pi 4B clients
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../hardware_setup/x86hosts.html" class="md-nav__link">
+        Setting up the x86 hosts
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_5_2" type="checkbox" id="__nav_2_5_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_5_2">
+          Software setup
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Software setup" data-md-level="3">
+        <label class="md-nav__title" for="__nav_2_5_2">
+          <span class="md-nav__icon md-icon"></span>
+          Software setup
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Fluent
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="Fluent.html" class="md-nav__link md-nav__link--active">
+        Fluent
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#configuration" class="md-nav__link">
+    Configuration
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuration-in-celeborn" class="md-nav__link">
+    Configuration in Celeborn
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configuration-in-the-clients" class="md-nav__link">
+    Configuration in the clients
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deployment" class="md-nav__link">
+    Deployment
+  </a>
+  
+    <nav class="md-nav" aria-label="Deployment">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#ad-hoc-method" class="md-nav__link">
+    Ad-hoc method
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ansible.html" class="md-nav__link">
+        Ansible
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="ntp.html" class="md-nav__link">
+        Time synchronization
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_6" data-md-state="indeterminate" type="checkbox" id="__nav_2_6" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_6">
+          Project course
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Project course" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_6">
+          <span class="md-nav__icon md-icon"></span>
+          Project course
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project_course/aws.html" class="md-nav__link">
+        Accessing the AWS test instances
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project_course/deploying.html" class="md-nav__link">
+        Deploying a workload to the Testbed
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" data-md-state="indeterminate" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Technical documents
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Technical documents" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Technical documents
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical_documents/hardware_inventory.html" class="md-nav__link">
+        Hardware Inventory
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical_documents/management_overview.html" class="md-nav__link">
+        Management Network Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_3" data-md-state="indeterminate" type="checkbox" id="__nav_3_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_3">
+          Workload definitions
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Workload definitions" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_3">
+          <span class="md-nav__icon md-icon"></span>
+          Workload definitions
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical_documents/workload_definitions/overview.html" class="md-nav__link">
+        Workload Definition Schema
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes_for_the_future.html" class="md-nav__link">
+        Notes for the future
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+  <a href="https://github.com/KTH-EXPECA/devdocs/edit/master/docs/tutorials/deployment/software_setup/Fluent.md" title="Edit this page" class="md-content__button md-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+
+<h1 id="fluent">Fluent<a class="headerlink" href="#fluent" title="Permanent link">🔗</a></h1>
+<p>We use containerised versions of <a href="https://fluentbit.io/">Fluentbit</a> for logging and debugging. Fluentbit is the simpler version of <a href="https://www.fluentd.org/">Fluentd</a> with much easier configurations. For instance, unlike Fluentd, the configuration of Fluentbit is a simple YAML file. For all the the anticipated tasks in the initial set-up, the capabilities of Fluentbit is sufficient.</p>
+<h2 id="configuration">Configuration<a class="headerlink" href="#configuration" title="Permanent link">🔗</a></h2>
+<p>We configure a fluentbit container in each of the workloads and clients to forward the standard input to the fluentbit container configured on the logging PC - <code>Celeborn</code>. Before forwarding, the client containers convert the unstructured logs -if any- to a structured JSON format. It also adds an additional key denoting the hostname. Currently, the hostname is the container hostname, but the idea is to pass the hostname of the client on which the container is running. The fluentbit container inside the logging PC is configured to collect the logs from all the clients and append it to a file created within the docker volume.</p>
+<p>The files used for the configuration of the fluentbit container in <code>Celeborn</code> and the clients are given below separately. The contents of the file are self explanatory.</p>
+<h3 id="configuration-in-celeborn">Configuration in <code>Celeborn</code><a class="headerlink" href="#configuration-in-celeborn" title="Permanent link">🔗</a></h3>
+<ul>
+<li>
+<p>docker-compose.yml
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>version: <span class="s2">&quot;3.5&quot;</span>
+<span class="linenos" data-linenos=" 2 "></span>services:
+<span class="linenos" data-linenos=" 3 "></span>  fluentbit:
+<span class="linenos" data-linenos=" 4 "></span>    <span class="c1">#network_mode: host</span>
+<span class="linenos" data-linenos=" 5 "></span>    build:
+<span class="linenos" data-linenos=" 6 "></span>      context: .
+<span class="linenos" data-linenos=" 7 "></span>      dockerfile: ./Dockerfile
+<span class="linenos" data-linenos=" 8 "></span>      <span class="c1">#network: host</span>
+<span class="linenos" data-linenos=" 9 "></span>    ports:
+<span class="linenos" data-linenos="10 "></span>      - <span class="s2">&quot;24224:24224&quot;</span>
+<span class="linenos" data-linenos="11 "></span>      - <span class="s2">&quot;24224:24224/udp&quot;</span>
+<span class="linenos" data-linenos="12 "></span>      - <span class="s2">&quot;24225:24225&quot;</span>
+<span class="linenos" data-linenos="13 "></span>      - <span class="s2">&quot;24225:24225/udp&quot;</span>
+<span class="linenos" data-linenos="14 "></span>    volumes:
+<span class="linenos" data-linenos="15 "></span>      - /home/expeca/Fluent/Logs/<span class="si">${</span><span class="nv">DIRNAME</span><span class="si">}</span>:/fluent-bit/log:rw
+<span class="linenos" data-linenos="16 "></span>        <span class="c1">#Enable above  mapping to use Docker Mount</span>
+<span class="linenos" data-linenos="17 "></span>        <span class="c1">#Enable below mapping and definition to use Docker Volumes</span>
+<span class="linenos" data-linenos="18 "></span>        <span class="c1">#- fluentVol:/fluent-bit</span>
+<span class="linenos" data-linenos="19 "></span><span class="c1">#volumes: </span>
+<span class="linenos" data-linenos="20 "></span>   <span class="c1">#fluentVol:</span>
+</code></pre></div></p>
+</li>
+<li>
+<p>Dockerfile 
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>FROM fluent/fluent-bit:1.8.7
+<span class="linenos" data-linenos="2 "></span><span class="c1">#version tags  1.8.8 and latest has some known issues with rewrite_tag plugin,</span>
+<span class="linenos" data-linenos="3 "></span>ADD fluent-bit.conf /fluent-bit/etc/
+</code></pre></div></p>
+</li>
+<li>
+<p>fluent-bit.conf 
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span><span class="o">[</span>SERVICE<span class="o">]</span>
+<span class="linenos" data-linenos=" 2 "></span>    log_level debug
+<span class="linenos" data-linenos=" 3 "></span>    Parsers_File parsers.conf
+<span class="linenos" data-linenos=" 4 "></span>
+<span class="linenos" data-linenos=" 5 "></span><span class="o">[</span>INPUT<span class="o">]</span>
+<span class="linenos" data-linenos=" 6 "></span>    Name forward
+<span class="linenos" data-linenos=" 7 "></span>    Listen <span class="m">0</span>.0.0.0
+<span class="linenos" data-linenos=" 8 "></span>    port <span class="m">24225</span>
+<span class="linenos" data-linenos=" 9 "></span>
+<span class="linenos" data-linenos="10 "></span><span class="o">[</span>FILTER<span class="o">]</span>
+<span class="linenos" data-linenos="11 "></span>    Name rewrite_tag
+<span class="linenos" data-linenos="12 "></span>    Match *
+<span class="linenos" data-linenos="13 "></span>    Rule <span class="nv">$source</span> ^stdout$ misc <span class="nb">true</span>
+<span class="linenos" data-linenos="14 "></span>    <span class="c1"># True is not necessay. Needs to correct and make it to false. </span>
+<span class="linenos" data-linenos="15 "></span>    <span class="c1"># Also this has some dependency and error with fluent:latest version.</span>
+<span class="linenos" data-linenos="16 "></span>    Emitter_Name MiscTagAdder
+<span class="linenos" data-linenos="17 "></span>
+<span class="linenos" data-linenos="18 "></span><span class="o">[</span>FILTER<span class="o">]</span>
+<span class="linenos" data-linenos="19 "></span>    Name rewrite_tag
+<span class="linenos" data-linenos="20 "></span>    Match *
+<span class="linenos" data-linenos="21 "></span>    Rule <span class="nv">$LogId</span> ^<span class="o">([</span><span class="m">0</span>-9<span class="o">]</span>+<span class="o">)</span>$ logId.<span class="nv">$LogId</span> <span class="nb">true</span>
+<span class="linenos" data-linenos="22 "></span>    <span class="c1"># True is not necessay. Needs to correct and make it to false. </span>
+<span class="linenos" data-linenos="23 "></span>    <span class="c1"># Also this has some dependency and error with fluent:latest version.</span>
+<span class="linenos" data-linenos="24 "></span>    Emitter_Name logIdTagAdder
+<span class="linenos" data-linenos="25 "></span>
+<span class="linenos" data-linenos="26 "></span><span class="c1">#[FILTER]</span>
+<span class="linenos" data-linenos="27 "></span><span class="c1">#    Name record_modifier</span>
+<span class="linenos" data-linenos="28 "></span><span class="c1">#    Match *</span>
+<span class="linenos" data-linenos="29 "></span><span class="c1">#    Record hostname ${HOSTNAME}</span>
+<span class="linenos" data-linenos="30 "></span><span class="c1">#[FILTER]</span>
+<span class="linenos" data-linenos="31 "></span><span class="c1">#    Name parser</span>
+<span class="linenos" data-linenos="32 "></span><span class="c1">#    Match *</span>
+<span class="linenos" data-linenos="33 "></span><span class="c1">#    Key_Name log</span>
+<span class="linenos" data-linenos="34 "></span><span class="c1">#    Parser docker</span>
+<span class="linenos" data-linenos="35 "></span><span class="c1">#</span>
+<span class="linenos" data-linenos="36 "></span><span class="c1">#[OUTPUT]</span>
+<span class="linenos" data-linenos="37 "></span><span class="c1">#    Name stdout</span>
+<span class="linenos" data-linenos="38 "></span><span class="c1">#    Match *</span>
+<span class="linenos" data-linenos="39 "></span><span class="c1">#    Format json_lines</span>
+<span class="linenos" data-linenos="40 "></span><span class="c1">#</span>
+<span class="linenos" data-linenos="41 "></span><span class="o">[</span>OUTPUT<span class="o">]</span>
+<span class="linenos" data-linenos="42 "></span>    Name file
+<span class="linenos" data-linenos="43 "></span>    Match logId.0
+<span class="linenos" data-linenos="44 "></span>    File Logs_LogId_0.csv
+<span class="linenos" data-linenos="45 "></span>    Format csv
+<span class="linenos" data-linenos="46 "></span>    Path /fluent-bit/log/
+<span class="linenos" data-linenos="47 "></span>
+<span class="linenos" data-linenos="48 "></span><span class="o">[</span>OUTPUT<span class="o">]</span>
+<span class="linenos" data-linenos="49 "></span>    Name file
+<span class="linenos" data-linenos="50 "></span>    Match misc
+<span class="linenos" data-linenos="51 "></span>    File Logs_Misc.log
+<span class="linenos" data-linenos="52 "></span>    Path /fluent-bit/log/
+</code></pre></div></p>
+</li>
+</ul>
+<h3 id="configuration-in-the-clients">Configuration in the clients<a class="headerlink" href="#configuration-in-the-clients" title="Permanent link">🔗</a></h3>
+<ul>
+<li>
+<p>docker-compose.yml
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span>version: <span class="s2">&quot;3.5&quot;</span>
+<span class="linenos" data-linenos=" 2 "></span>services:
+<span class="linenos" data-linenos=" 3 "></span>  fluentbit_client:
+<span class="linenos" data-linenos=" 4 "></span>    <span class="c1">#network_mode: host</span>
+<span class="linenos" data-linenos=" 5 "></span>    <span class="c1">#hostname: &#39;{{.Node.Hostname}}&#39;</span>
+<span class="linenos" data-linenos=" 6 "></span>    hostname: <span class="nv">$HOSTNAME</span>
+<span class="linenos" data-linenos=" 7 "></span>    stdin_open: <span class="nb">true</span>
+<span class="linenos" data-linenos=" 8 "></span>    tty: <span class="nb">true</span>
+<span class="linenos" data-linenos=" 9 "></span>    build:
+<span class="linenos" data-linenos="10 "></span>      context: .
+<span class="linenos" data-linenos="11 "></span>      dockerfile: ./Dockerfile
+<span class="linenos" data-linenos="12 "></span>      <span class="c1">#network: host</span>
+<span class="linenos" data-linenos="13 "></span>    ports:
+<span class="linenos" data-linenos="14 "></span>      - <span class="s2">&quot;24224:24224&quot;</span>
+<span class="linenos" data-linenos="15 "></span>      - <span class="s2">&quot;24224:24224/udp&quot;</span>
+<span class="linenos" data-linenos="16 "></span>      - <span class="s2">&quot;24225:24225&quot;</span>
+<span class="linenos" data-linenos="17 "></span>      - <span class="s2">&quot;24225:24225/udp&quot;</span>
+<span class="linenos" data-linenos="18 "></span>  ack:
+<span class="linenos" data-linenos="19 "></span>    image: ubuntu
+<span class="linenos" data-linenos="20 "></span>    command: <span class="o">[</span>/bin/echo, <span class="s2">&quot;=========Fluent started for log forwarding========&quot;</span><span class="o">]</span>
+<span class="linenos" data-linenos="21 "></span>    depends_on:
+<span class="linenos" data-linenos="22 "></span>            - fluentbit_client
+<span class="linenos" data-linenos="23 "></span>    logging:
+<span class="linenos" data-linenos="24 "></span>      driver: fluentd
+<span class="linenos" data-linenos="25 "></span>      options:
+<span class="linenos" data-linenos="26 "></span>        tag: docker-ubuntu
+</code></pre></div></p>
+</li>
+<li>
+<p>Dockerfile 
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>FROM fluent/fluent-bit:latest
+<span class="linenos" data-linenos="2 "></span>ADD fluent-bit.conf /fluent-bit/etc/
+</code></pre></div></p>
+</li>
+<li>
+<p>fluent-bit.conf 
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span><span class="o">[</span>SERVICE<span class="o">]</span>
+<span class="linenos" data-linenos=" 2 "></span>    log_level debug
+<span class="linenos" data-linenos=" 3 "></span>    Parsers_File parsers.conf
+<span class="linenos" data-linenos=" 4 "></span>
+<span class="linenos" data-linenos=" 5 "></span><span class="o">[</span>INPUT<span class="o">]</span>
+<span class="linenos" data-linenos=" 6 "></span>    Name forward
+<span class="linenos" data-linenos=" 7 "></span>    Listen <span class="m">0</span>.0.0.0
+<span class="linenos" data-linenos=" 8 "></span>    port <span class="m">24224</span>
+<span class="linenos" data-linenos=" 9 "></span>
+<span class="linenos" data-linenos="10 "></span><span class="o">[</span>FILTER<span class="o">]</span>
+<span class="linenos" data-linenos="11 "></span>    Name parser
+<span class="linenos" data-linenos="12 "></span>    Match *
+<span class="linenos" data-linenos="13 "></span>    Key_Name log
+<span class="linenos" data-linenos="14 "></span>    Parser docker
+<span class="linenos" data-linenos="15 "></span>
+<span class="linenos" data-linenos="16 "></span><span class="o">[</span>FILTER<span class="o">]</span>
+<span class="linenos" data-linenos="17 "></span>    Name record_modifier
+<span class="linenos" data-linenos="18 "></span>    Match *
+<span class="linenos" data-linenos="19 "></span>    Record hostname <span class="si">${</span><span class="nv">HOSTNAME</span><span class="si">}</span>
+<span class="linenos" data-linenos="20 "></span>
+<span class="linenos" data-linenos="21 "></span><span class="o">[</span>OUTPUT<span class="o">]</span>
+<span class="linenos" data-linenos="22 "></span>    Name forward
+<span class="linenos" data-linenos="23 "></span>    Host <span class="m">192</span>.168.1.3
+<span class="linenos" data-linenos="24 "></span>    Port <span class="m">24225</span>
+<span class="linenos" data-linenos="25 "></span>    Match *
+</code></pre></div></p>
+</li>
+<li>
+<p>parsers.conf 
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span><span class="o">[</span>PARSER<span class="o">]</span>
+<span class="linenos" data-linenos="2 "></span>    Name docker
+<span class="linenos" data-linenos="3 "></span>    Format json
+<span class="linenos" data-linenos="4 "></span>    Time_Key <span class="nb">time</span>
+<span class="linenos" data-linenos="5 "></span>    Time_Format %Y-%m-%dT%H:%M:%S.%L
+<span class="linenos" data-linenos="6 "></span>    Time_Keep On
+<span class="linenos" data-linenos="7 "></span>    Decode_Field_As escaped_utf8 log
+</code></pre></div></p>
+</li>
+</ul>
+<h2 id="deployment">Deployment<a class="headerlink" href="#deployment" title="Permanent link">🔗</a></h2>
+<p>Creating the above files in the logging PC is straightforward and easy and it is only a matter of bringing up the docker-compose with the standard <code>docker-compose up</code> command from the correct directory. 
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>docker-compose -f /home/expeca/Fluent/docker-compose.yml up --build --force-recreate -d
+</code></pre></div>
+However, this assumes the presence of an updated environment file. Note that in the <code>docker-compose.yml</code> file, we used the environment variable <code>DIRNAME</code> to create a dynamic directory during the runtime to manage various logs. This environment variable will be taken from the default <code>.env</code> file kept in the same path as the compose file. This can be updated according to necessity. For instance, to save the logs in a directory structure based on current date-time, one can use the below command to update the environment file and run create the container.
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span><span class="nb">echo</span> <span class="s2">&quot;DIRNAME=</span><span class="k">$(</span>date +<span class="s2">&quot;%y-%m-%d-%H-%M-%S&quot;</span><span class="k">)</span><span class="s2">&quot;</span> &gt; .env <span class="o">&amp;&amp;</span> docker-compose -f /home/expeca/Fluent/FluentCeleborn/docker-compose.yml up --build --force-recreate -d
+</code></pre></div></p>
+<p>In case if one needs to see the logs live, the following <code>tail</code> command can be used.
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>sudo tail -f &lt;path-to-file&gt;
+</code></pre></div>
+Path to the file in case of a docker volume is /var/lib/docker/volumes/fluent_fluentVol/_data/log</p>
+<p>However, doing this in the client is not so easy due to the number of clients. Hence, we use Ansible to copy the files to the respective locations in the clients. This is particularly useful when one has to make slight modifications to the files in each and every client. </p>
+<h3 id="ad-hoc-method">Ad-hoc method<a class="headerlink" href="#ad-hoc-method" title="Permanent link">🔗</a></h3>
+<p>For the initial deployment, we use the Ansible ad-hoc commands to do these tasks as explained below. We start with creating a copy of the client files in the management PC -<code>Galadriel</code>- and use ad-hoc commands to copy this to the clients. This needs to be done from the proper Ansible directory. For more information, refer to the tutorial on Ansible.</p>
+<ul>
+<li>Create a directory <code>/home/expeca/Fluent</code> in the management PC containing the necessary fluent files for the clients.</li>
+<li>Copy the files to every client. For this we use the Ansible inventory group <code>workload</code>.
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>ansible workload -m copy -a <span class="s1">&#39;src=/home/expeca/Fluent dest=/home/expeca&#39;</span>
+</code></pre></div></li>
+<li>Rebuild and start the containers. This needs to be done only after starting the fluent container in the server - <code>Celeborn</code>.
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>ansible workload -a <span class="s1">&#39;docker-compose -f Fluent/docker-compose.yml up --build --force-recreate -d&#39;</span>
+</code></pre></div></li>
+<li>In case if one needs to test the logging, the following command can be used.
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>ansible workload -a <span class="s1">&#39;docker run --log-driver=fluentd -t ubuntu echo &quot;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;Testing a log message&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&lt;&quot;&#39;</span>
+</code></pre></div></li>
+</ul>
+
+  <hr>
+<div class="md-source-file">
+  <small>
+    
+      Last update:
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2022-05-16T14:17:33+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2022-05-16</span>
+      
+        <br>
+        Created:
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2022-05-16T14:17:33+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2022-05-16</span>
+      
+    
+  </small>
+</div>
+
+              
+            </article>
+          </div>
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Back to top
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../hardware_setup/x86hosts.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Setting up the x86 hosts" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Setting up the x86 hosts
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="ansible.html" class="md-footer__link md-footer__link--next" aria-label="Next: Ansible" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Ansible
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2020 - EXPECA Project Group at KTH Royal Institute of Technology
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "toc.integrate"], "search": "../../../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.a6c66575.min.js"></script>
+      
+        <script src="../../../js/timeago.min.js"></script>
+      
+        <script src="../../../js/timeago_mkdocs_material.js"></script>
+      
+    
+  </body>
+</html>

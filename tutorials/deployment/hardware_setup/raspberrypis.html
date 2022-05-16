@@ -1,0 +1,1152 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Manuel Olguín Muñoz">
+      
+      
+        <link rel="canonical" href="https://expeca.proj.kth.se/devdocs/tutorials/deployment/hardware_setup/raspberrypis.html">
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.15">
+    
+    
+      
+        <title>Setting up the Raspberry Pi 4B clients - EXPECA Testbed Developer Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.c382b1dc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.cc9b2e1e.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#4051b5">
+        
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Ubuntu";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../css/timeago.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#setting-up-the-raspberry-pi-4b-clients" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../index.html" title="EXPECA Testbed Developer Documentation" class="md-header__button md-logo" aria-label="EXPECA Testbed Developer Documentation" data-md-component="logo">
+      
+  <img src="../../../assets/kth_logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EXPECA Testbed Developer Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Setting up the Raspberry Pi 4B clients
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/KTH-EXPECA/devdocs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    KTH-EXPECA/devdocs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../../index.html" class="md-tabs__link">
+      Welcome
+    </a>
+  </li>
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../sshing_into_the_lab.html" class="md-tabs__link md-tabs__link--active">
+        Tutorials
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../technical_documents/hardware_inventory.html" class="md-tabs__link">
+        Technical documents
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../../notes_for_the_future.html" class="md-tabs__link">
+      Notes for the future
+    </a>
+  </li>
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../index.html" title="EXPECA Testbed Developer Documentation" class="md-nav__button md-logo" aria-label="EXPECA Testbed Developer Documentation" data-md-component="logo">
+      
+  <img src="../../../assets/kth_logo.png" alt="logo">
+
+    </a>
+    EXPECA Testbed Developer Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/KTH-EXPECA/devdocs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    KTH-EXPECA/devdocs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../index.html" class="md-nav__link">
+        Welcome
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Tutorials
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Tutorials" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Tutorials
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sshing_into_the_lab.html" class="md-nav__link">
+        Accessing the lab remotely
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adding_documentation.html" class="md-nav__link">
+        Editing documentation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ansible.html" class="md-nav__link">
+        Ansible
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ips_dns_bindings.html" class="md-nav__link">
+        Setting IP addresses and DNS bindings
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_5" type="checkbox" id="__nav_2_5" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_5">
+          Deployment
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Deployment" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_5">
+          <span class="md-nav__icon md-icon"></span>
+          Deployment
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_5_1" type="checkbox" id="__nav_2_5_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_5_1">
+          Hardware setup
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Hardware setup" data-md-level="3">
+        <label class="md-nav__title" for="__nav_2_5_1">
+          <span class="md-nav__icon md-icon"></span>
+          Hardware setup
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Setting up the Raspberry Pi 4B clients
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="raspberrypis.html" class="md-nav__link md-nav__link--active">
+        Setting up the Raspberry Pi 4B clients
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#initial-deployment-configuration" class="md-nav__link">
+    Initial deployment configuration
+  </a>
+  
+    <nav class="md-nav" aria-label="Initial deployment configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#install-ubuntu-server" class="md-nav__link">
+    Install Ubuntu Server
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#enable-the-usb-ethernet-adapter" class="md-nav__link">
+    Enable the USB Ethernet adapter
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#configure-the-ubuntu-user-for-remote-access" class="md-nav__link">
+    Configure the ubuntu user for remote access
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cloning-the-configuration" class="md-nav__link">
+    Cloning the configuration
+  </a>
+  
+    <nav class="md-nav" aria-label="Cloning the configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cloning-the-sd-card-on-linux" class="md-nav__link">
+    Cloning the SD card on Linux
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cloning-the-sd-card-on-mac-os-x" class="md-nav__link">
+    Cloning the SD card on Mac OS X
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#final-configuration-using-ansible" class="md-nav__link">
+    Final configuration using Ansible
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="x86hosts.html" class="md-nav__link">
+        Setting up the x86 hosts
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_5_2" data-md-state="indeterminate" type="checkbox" id="__nav_2_5_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_5_2">
+          Software setup
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Software setup" data-md-level="3">
+        <label class="md-nav__title" for="__nav_2_5_2">
+          <span class="md-nav__icon md-icon"></span>
+          Software setup
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../software_setup/Fluent.html" class="md-nav__link">
+        Fluent
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../software_setup/ansible.html" class="md-nav__link">
+        Ansible
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../software_setup/ntp.html" class="md-nav__link">
+        Time synchronization
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_6" data-md-state="indeterminate" type="checkbox" id="__nav_2_6" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_6">
+          Project course
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Project course" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_6">
+          <span class="md-nav__icon md-icon"></span>
+          Project course
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project_course/aws.html" class="md-nav__link">
+        Accessing the AWS test instances
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project_course/deploying.html" class="md-nav__link">
+        Deploying a workload to the Testbed
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" data-md-state="indeterminate" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Technical documents
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Technical documents" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Technical documents
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical_documents/hardware_inventory.html" class="md-nav__link">
+        Hardware Inventory
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical_documents/management_overview.html" class="md-nav__link">
+        Management Network Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_3" data-md-state="indeterminate" type="checkbox" id="__nav_3_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_3">
+          Workload definitions
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Workload definitions" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_3">
+          <span class="md-nav__icon md-icon"></span>
+          Workload definitions
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical_documents/workload_definitions/overview.html" class="md-nav__link">
+        Workload Definition Schema
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes_for_the_future.html" class="md-nav__link">
+        Notes for the future
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+  <a href="https://github.com/KTH-EXPECA/devdocs/edit/master/docs/tutorials/deployment/hardware_setup/raspberrypis.md" title="Edit this page" class="md-content__button md-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+
+<h1 id="setting-up-the-raspberry-pi-4b-clients">Setting up the Raspberry Pi 4B clients<a class="headerlink" href="#setting-up-the-raspberry-pi-4b-clients" title="Permanent link">🔗</a></h1>
+<p>The easiest way to deploy an identical initial configuration to each of the 13 Raspberry Pi 4B clients is by completing the <a href="#initial-deployment-configuration">initial steps</a> on one of the devices and then <a href="#cloning-the-configuration">cloning the SD-card to obtain 13 copies of the configuration.</a>
+To avoid issues with mismatched SD-card sizes when cloning, make sure to perform the initial setup on a Raspberry Pi with an SD-card of the smallest size available.
+That is, if you for instance have both 32 and 64 GB cards, perform the setup on a 32 GB card.
+This way, the cards can still be cloned even when the storage sizes do not match.</p>
+<h2 id="initial-deployment-configuration">Initial deployment configuration<a class="headerlink" href="#initial-deployment-configuration" title="Permanent link">🔗</a></h2>
+<p>The initial, barebones configuration only considers getting the Raspberry Pi up and running connected to the network.
+Provisioning of the final configuration will be handled over the network with Ansible.</p>
+<h3 id="install-ubuntu-server">Install Ubuntu Server<a class="headerlink" href="#install-ubuntu-server" title="Permanent link">🔗</a></h3>
+<p>Follow the instructions on the <a href="https://ubuntu.com/tutorials/how-to-install-ubuntu-on-your-raspberry-pi#1-overview">official Ubuntu website</a> to install Ubuntu Server in <strong>headless</strong> mode.</p>
+<ul>
+<li>
+<p>Skip the <em>Install a desktop step</em>. We do not need a graphical interface, and installing and configuring one would just be a waste of resources and time.</p>
+</li>
+<li>
+<p>For using SSH you might have to create an empty file named <code>ssh</code> in the main boot directory</p>
+</li>
+</ul>
+<p>After installation, boot the device and either log into it physically or remote in over SSH to continue.</p>
+<h3 id="enable-the-usb-ethernet-adapter">Enable the USB Ethernet adapter<a class="headerlink" href="#enable-the-usb-ethernet-adapter" title="Permanent link">🔗</a></h3>
+<p>Edit the <code>/etc/netplan/50-cloud-init.yaml</code> file and add the following to networks -&gt; ethernets:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>...
+<span class="linenos" data-linenos="2 "></span>eth1:
+<span class="linenos" data-linenos="3 "></span>    dhcp4: true
+<span class="linenos" data-linenos="4 "></span>    optional: true
+<span class="linenos" data-linenos="5 "></span>...
+</code></pre></div>
+<p>And then apply the change by running <code>sudo netplan apply</code></p>
+<h3 id="configure-the-ubuntu-user-for-remote-access">Configure the <code>ubuntu</code> user for remote access<a class="headerlink" href="#configure-the-ubuntu-user-for-remote-access" title="Permanent link">🔗</a></h3>
+<p>By default, the Ubuntu Server installation comes with a single <code>ubuntu</code> user.
+We will prepare this user for full provisioning over Ansible.</p>
+<ol>
+<li>
+<p>Verify that the password is set to <code>ubuntu</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span><span class="gp">$ </span>sudo passwd ubuntu
+<span class="linenos" data-linenos="2 "></span><span class="go">...</span>
+<span class="linenos" data-linenos="3 "></span><span class="go">New password: </span>
+<span class="linenos" data-linenos="4 "></span><span class="go">Retype new password: </span>
+<span class="linenos" data-linenos="5 "></span><span class="go">passwd: password updated successfully</span>
+</code></pre></div>
+</li>
+<li>
+<p>Configure and enable the SSH server.</p>
+<ol>
+<li>Open <code>/etc/ssh/sshd_config</code> with a text editor like <code>vim</code> and make sure <code>Port</code> is set to <code>22</code> and <code>PasswordAuthentication</code> to <code>yes</code>.</li>
+<li>
+<p>Enable the SSH server:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span><span class="gp">$ </span>sudo systemctl <span class="nb">enable</span> ssh
+<span class="linenos" data-linenos="2 "></span><span class="go">...</span>
+<span class="linenos" data-linenos="3 "></span><span class="gp">$ </span>sudo systemctl restart ssh
+<span class="linenos" data-linenos="4 "></span><span class="go">...</span>
+</code></pre></div>
+</li>
+</ol>
+</li>
+</ol>
+<p>At this point, the Raspberry Pi is ready for full provisioning and configuration over the network with Ansible.
+<a href="#cloning-the-configuration">Clone the configuration to the remaining Pis</a>, connect them to the management network using the USB adapter, and then <a href="#final-configuration-using-ansible">provision them using Ansible</a>.</p>
+<h3 id="cloning-the-configuration">Cloning the configuration<a class="headerlink" href="#cloning-the-configuration" title="Permanent link">🔗</a></h3>
+<ol>
+<li>Shut down the Raspberry Pi and extract the microSD card.</li>
+<li>Insert the microSD card into your device.</li>
+<li>
+<p>Depending on your OS, proceed with the corresponding steps and then return here:</p>
+<ul>
+<li><a href="#cloning-the-sd-card-on-linux">Linux</a> (Preferred)</li>
+<li><a href="#cloning-the-sd-card-on-mac-os-x">Mac OS X</a></li>
+</ul>
+</li>
+<li>
+<p>At this point, the new microSD card contains an exact clone of the original configuration. Unmount and remove it, and reinsert it into the Raspberry Pi.
+    <!-- Note: There might be some additional steps required if the sizes of the SD cards are different. --></p>
+</li>
+<li>
+<p>Finally, make sure device-specific details are modified on the Pi itself.</p>
+<p>In particular, make sure to change the hostname to an appropriate one.
+This can be done through the <code>hostnamectl</code> command, e.g.:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span><span class="go">sudo hostnamectl set-hostname expeca-rpi-1</span>
+</code></pre></div>
+</li>
+</ol>
+<h4 id="cloning-the-sd-card-on-linux">Cloning the SD card on Linux<a class="headerlink" href="#cloning-the-sd-card-on-linux" title="Permanent link">🔗</a></h4>
+<p>The easiest way to obtain a completely identical bootable configuration from a single fully configured Raspberry Pi is through the command line on a Linux device:</p>
+<ol>
+<li>
+<p>Figure out the device ID of the card using <code>lsblk</code>.
+    For example:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span><span class="gp">$ </span>lsblk
+<span class="linenos" data-linenos="2 "></span><span class="go">NAME        MAJ:MIN RM   SIZE RO TYPE MOUNTPOINT</span>
+<span class="linenos" data-linenos="3 "></span><span class="go">...</span>
+<span class="linenos" data-linenos="4 "></span><span class="go">sda           8:0    1  28,9G  0 disk </span>
+<span class="linenos" data-linenos="5 "></span><span class="go">└─sda1        8:1    1  28.9G  0 part /run/media/user/KINGSTON</span>
+</code></pre></div>
+<p>In this case, the microSD card has been assigned the device ID <code>/dev/sda</code>.</p>
+</li>
+<li>
+<p>Clone the raw contents of the microSD card (this includes filesystem structure and bootable sectors) to somewhere on your hard drive using <code>cat</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span><span class="go">cat /dev/sdX &gt; /path/to/somewhere/sdcard.img</span>
+</code></pre></div>
+<p><code>/dev/sdX</code> here should be replaced with the device ID from the previous step.</p>
+<p>Alternatively, to be able to track progress, install <code>pv</code> (<code>sudo apt install pv</code>) and use it instead:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span><span class="go">pv /dev/sda &gt; /path/to/somewhere/sdcard.img</span>
+</code></pre></div>
+</li>
+<li>
+<p>Once cloning is done, unmount and remove the microSD card from the computer and insert the new microSD card the configuration is going to be copied to.</p>
+</li>
+<li>
+<p>Clone the contents of the image we made in step 4 to the new microSD card. Note that this will completely overwrite the existing filesystem structure on the card.</p>
+<p>To do this, repeat step 3 to verify the device ID of the card, and then execute:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span><span class="go">cat /path/to/somewhere/sdcard.img | sudo dd of=/dev/sdX</span>
+</code></pre></div>
+<p>Alternatively, using <code>pv</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span><span class="go">cat /path/to/somewhere/sdcard.img | sudo pv /dev/sdX</span>
+</code></pre></div>
+<p>Once this finishes, make sure the filesystem buffers are flushed and synchronized by running <code>sync</code> (this will potentially take a minute or two).</p>
+</li>
+<li>
+<p><a href="#cloning-the-configuration">Return to the general cloning instructions.</a></p>
+</li>
+</ol>
+<h4 id="cloning-the-sd-card-on-mac-os-x">Cloning the SD card on Mac OS X<a class="headerlink" href="#cloning-the-sd-card-on-mac-os-x" title="Permanent link">🔗</a></h4>
+<ol>
+<li>
+<p>Figure out the device ID of the card using:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span><span class="go">diskutil list</span>
+</code></pre></div>
+<p>DeviceID is <code>rdisk4</code> in the below example. Here <code>r</code> denotes raw contents.</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span><span class="gp">$</span>&gt; ~ % diskutil list
+<span class="linenos" data-linenos=" 2 "></span><span class="go">/dev/disk0 (internal):</span>
+<span class="linenos" data-linenos=" 3 "></span><span class="go">...</span>
+<span class="linenos" data-linenos=" 4 "></span><span class="go">/dev/disk3 (synthesized):</span>
+<span class="linenos" data-linenos=" 5 "></span><span class="go">...</span>
+<span class="linenos" data-linenos=" 6 "></span><span class="go">/dev/disk4 (external, physical):</span>
+<span class="linenos" data-linenos=" 7 "></span><span class="go">_:      TYPE NAME                    SIZE            IDENTIFIER</span>
+<span class="linenos" data-linenos=" 8 "></span><span class="go">0:      FDisk_partition_scheme        *62.1 GB        disk4</span>
+<span class="linenos" data-linenos=" 9 "></span><span class="go">1:      Windows_FAT_32 ⁨boot         268.4 MB         disk4s1</span>
+<span class="linenos" data-linenos="10 "></span><span class="go">2:      Linux                        61.8 GB            disk4s2</span>
+</code></pre></div>
+</li>
+<li>
+<p>Clone the raw contents of the microSD card (this includes filesystem structure and bootable sectors) to somewhere on your hard drive. This might take some time.</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span><span class="go">sudo dd if=/dev/&lt;diskX&gt; of=/Users/&lt;username&gt;/Desktop/Rpi.dmg bs=1m</span>
+</code></pre></div>
+</li>
+<li>
+<p>Unmount SD card</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span><span class="go">sudo diskutil unmountDisk /dev/&lt;diskX&gt;</span>
+</code></pre></div>
+</li>
+<li>
+<p>Once cloning is done, unmount and remove the microSD card from the computer and insert the new microSD card the configuration is going to be copied to.</p>
+</li>
+<li>
+<p>Clone the image contents after finding the correct device ID (refer to step 2). This might take some time.</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span><span class="go">sudo dd if=/Users/&lt;username&gt;/Desktop/Rpi.dmg of=/dev/&lt;rdiskX&gt; bs=1m</span>
+</code></pre></div>
+</li>
+<li>
+<p>If the above step shows a "Resource busy" error, unmount (only) the subvolumes and retry.</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span><span class="gp">$ </span>sudo diskutil unmountDisk /dev/disk4s1
+<span class="linenos" data-linenos="2 "></span><span class="go">...</span>
+<span class="linenos" data-linenos="3 "></span><span class="gp">$ </span>sudo diskutil unmountDisk /dev/disk4s2
+<span class="linenos" data-linenos="4 "></span><span class="go">...</span>
+</code></pre></div>
+</li>
+<li>
+<p><a href="#cloning-the-configuration">Return to the general cloning instructions.</a></p>
+</li>
+</ol>
+<h2 id="final-configuration-using-ansible">Final configuration using Ansible<a class="headerlink" href="#final-configuration-using-ansible" title="Permanent link">🔗</a></h2>
+<p>Once the Raspberry Pi clients have been prepared and connected to the network, we can easily configure them in parallel using Ansible.
+The following instructions must be followed from <code>galadriel</code>.</p>
+<p><strong>Prerequisite</strong>: The static DHCP bindings of the management network need to have been configured. <!-- TODO: Add link!! --></p>
+<ol>
+<li>
+<p>If it's not already present, clone the <code>KTH-EXPECA/TestbedConfig</code> repository and <code>cd</code> into it:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span><span class="gp">$ </span>git clone git@github.com:KTH-EXPECA/TestbedConfig.git
+<span class="linenos" data-linenos="2 "></span><span class="go">...</span>
+<span class="linenos" data-linenos="3 "></span><span class="gp">$ </span><span class="nb">cd</span> TestbedConfig
+</code></pre></div>
+<p>If you've previously cloned this repository, make sure it's updated to the latest revision.</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span><span class="gp">$ </span><span class="nb">cd</span> TestbedConfig
+<span class="linenos" data-linenos="2 "></span><span class="go">./TestbedConfig</span>
+<span class="linenos" data-linenos="3 "></span><span class="gp">$ </span>git pull
+<span class="linenos" data-linenos="4 "></span><span class="go">...</span>
+</code></pre></div>
+</li>
+<li>
+<p>Make sure the newly prepared Raspberry Pis are visible to <code>galadriel</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span><span class="gp">$ </span>ansible all -i <span class="s1">&#39;&lt;ip addresses&gt;&#39;</span> -m ping --user ubuntu -k -K
+<span class="linenos" data-linenos="2 "></span><span class="go">... </span>
+</code></pre></div>
+<p>Replace <code>&lt;ip addresses&gt;</code> with the IPs of the new Raspberry Pis, end with a comma.
+E.g. if Raspberry Pis 3, 4, and 5 were reprovisioned, the command would read:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span><span class="gp">$ </span>ansible all -i <span class="s1">&#39;192.168.1.103,192.168.1.104,192.168.1.105,&#39;</span> -m ping --user ubuntu -k -K
+<span class="linenos" data-linenos="2 "></span><span class="go">... </span>
+</code></pre></div>
+<p>Again, note the comma at the end of the list of IP addresses.</p>
+<p>The <code>-k -K</code> flags will instruct Ansible to ask for passwords; simply input <code>ubuntu</code> as preconfigured.</p>
+</li>
+<li>
+<p>Run the <code>ansible/provision_raspberry_pis.yml</code> playbook.
+    This playbook does a number of things:</p>
+<ol>
+<li>Creates the <code>expeca</code> user, which will be used as administration account going forward, and adds the necessary SSH keys to it.</li>
+<li>Configures SSH to only allow public-key authentication.</li>
+<li>Deletes the <code>ubuntu</code> user as it will not be used anymore.</li>
+<li>Configures the system, installing necessary software and overclocking the CPU.</li>
+<li>Finally, reboots the devices.</li>
+</ol>
+<p>To run the playbook, execute:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span><span class="gp">$ </span>ansible-playbook -i <span class="s1">&#39;&lt;ip addresses&gt;&#39;</span> ansible/provision_raspberry_pis.yml -k -K
+<span class="linenos" data-linenos="2 "></span><span class="go">...</span>
+</code></pre></div>
+<p>Again, replace <code>&lt;ip addresses&gt;</code> with the IPs of the new Raspberry Pis, end with a comma.</p>
+</li>
+</ol>
+
+  <hr>
+<div class="md-source-file">
+  <small>
+    
+      Last update:
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2022-05-16T14:17:33+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2022-05-16</span>
+      
+        <br>
+        Created:
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2022-05-16T14:17:33+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2022-05-16</span>
+      
+    
+  </small>
+</div>
+
+              
+            </article>
+          </div>
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Back to top
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../../ips_dns_bindings.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Setting IP addresses and DNS bindings" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Setting IP addresses and DNS bindings
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="x86hosts.html" class="md-footer__link md-footer__link--next" aria-label="Next: Setting up the x86 hosts" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Setting up the x86 hosts
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2020 - EXPECA Project Group at KTH Royal Institute of Technology
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "toc.integrate"], "search": "../../../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.a6c66575.min.js"></script>
+      
+        <script src="../../../js/timeago.min.js"></script>
+      
+        <script src="../../../js/timeago_mkdocs_material.js"></script>
+      
+    
+  </body>
+</html>

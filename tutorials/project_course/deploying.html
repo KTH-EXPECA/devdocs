@@ -1,0 +1,1251 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Manuel Olguín Muñoz">
+      
+      
+        <link rel="canonical" href="https://expeca.proj.kth.se/devdocs/tutorials/project_course/deploying.html">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.15">
+    
+    
+      
+        <title>Deploying a workload to the Testbed - EXPECA Testbed Developer Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.c382b1dc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.cc9b2e1e.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#4051b5">
+        
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Ubuntu";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../css/timeago.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#deploying-a-workload-to-the-testbed" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../index.html" title="EXPECA Testbed Developer Documentation" class="md-header__button md-logo" aria-label="EXPECA Testbed Developer Documentation" data-md-component="logo">
+      
+  <img src="../../assets/kth_logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EXPECA Testbed Developer Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Deploying a workload to the Testbed
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/KTH-EXPECA/devdocs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    KTH-EXPECA/devdocs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../index.html" class="md-tabs__link">
+      Welcome
+    </a>
+  </li>
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../sshing_into_the_lab.html" class="md-tabs__link md-tabs__link--active">
+        Tutorials
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../technical_documents/hardware_inventory.html" class="md-tabs__link">
+        Technical documents
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../notes_for_the_future.html" class="md-tabs__link">
+      Notes for the future
+    </a>
+  </li>
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../index.html" title="EXPECA Testbed Developer Documentation" class="md-nav__button md-logo" aria-label="EXPECA Testbed Developer Documentation" data-md-component="logo">
+      
+  <img src="../../assets/kth_logo.png" alt="logo">
+
+    </a>
+    EXPECA Testbed Developer Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/KTH-EXPECA/devdocs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    KTH-EXPECA/devdocs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../index.html" class="md-nav__link">
+        Welcome
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Tutorials
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Tutorials" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Tutorials
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sshing_into_the_lab.html" class="md-nav__link">
+        Accessing the lab remotely
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adding_documentation.html" class="md-nav__link">
+        Editing documentation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ansible.html" class="md-nav__link">
+        Ansible
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ips_dns_bindings.html" class="md-nav__link">
+        Setting IP addresses and DNS bindings
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_5" data-md-state="indeterminate" type="checkbox" id="__nav_2_5" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_5">
+          Deployment
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Deployment" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_5">
+          <span class="md-nav__icon md-icon"></span>
+          Deployment
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_5_1" data-md-state="indeterminate" type="checkbox" id="__nav_2_5_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_5_1">
+          Hardware setup
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Hardware setup" data-md-level="3">
+        <label class="md-nav__title" for="__nav_2_5_1">
+          <span class="md-nav__icon md-icon"></span>
+          Hardware setup
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deployment/hardware_setup/raspberrypis.html" class="md-nav__link">
+        Setting up the Raspberry Pi 4B clients
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deployment/hardware_setup/x86hosts.html" class="md-nav__link">
+        Setting up the x86 hosts
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_5_2" data-md-state="indeterminate" type="checkbox" id="__nav_2_5_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_5_2">
+          Software setup
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Software setup" data-md-level="3">
+        <label class="md-nav__title" for="__nav_2_5_2">
+          <span class="md-nav__icon md-icon"></span>
+          Software setup
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deployment/software_setup/Fluent.html" class="md-nav__link">
+        Fluent
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deployment/software_setup/ansible.html" class="md-nav__link">
+        Ansible
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../deployment/software_setup/ntp.html" class="md-nav__link">
+        Time synchronization
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_6" type="checkbox" id="__nav_2_6" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_6">
+          Project course
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Project course" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_6">
+          <span class="md-nav__icon md-icon"></span>
+          Project course
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="aws.html" class="md-nav__link">
+        Accessing the AWS test instances
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Deploying a workload to the Testbed
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="deploying.html" class="md-nav__link md-nav__link--active">
+        Deploying a workload to the Testbed
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#physical-layer-configuration" class="md-nav__link">
+    Physical layer configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#network-layer-configuration" class="md-nav__link">
+    Network layer configuration
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#workload-configuration" class="md-nav__link">
+    Workload configuration
+  </a>
+  
+    <nav class="md-nav" aria-label="Workload configuration">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#preparation" class="md-nav__link">
+    Preparation
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#test-on-aws" class="md-nav__link">
+    Test on AWS
+  </a>
+  
+    <nav class="md-nav" aria-label="Test on AWS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#configuring-the-swarm" class="md-nav__link">
+    Configuring the Swarm
+  </a>
+  
+    <nav class="md-nav" aria-label="Configuring the Swarm">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#initialize-the-swarm" class="md-nav__link">
+    Initialize the Swarm
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add-the-second-node-to-the-swarm" class="md-nav__link">
+    Add the second node to the Swarm
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#add-the-necessary-node-labels" class="md-nav__link">
+    Add the necessary node labels
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#write-a-deployment-configuration-file" class="md-nav__link">
+    Write a deployment configuration file
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deploying-workload-on-aws-swarm" class="md-nav__link">
+    Deploying workload on AWS Swarm
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#deployment-on-the-testbed-through-ainur" class="md-nav__link">
+    Deployment on the testbed through Ainur
+  </a>
+  
+    <nav class="md-nav" aria-label="Deployment on the testbed through Ainur">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#log-into-galadriel-using-the-provided-ssh-keys" class="md-nav__link">
+    Log into Galadriel using the provided SSH keys
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#clone-your-fork-of-ainur" class="md-nav__link">
+    Clone your fork of Ainur
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#prepare-the-python-environment-and-install-necessary-packages" class="md-nav__link">
+    Prepare the Python environment and install necessary packages
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#make-sure-all-the-hosts-have-your-docker-images" class="md-nav__link">
+    Make sure all the hosts have your Docker images
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run-your-workload" class="md-nav__link">
+    Run your workload
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#collect-your-data" class="md-nav__link">
+    Collect your data
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" data-md-state="indeterminate" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Technical documents
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Technical documents" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Technical documents
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical_documents/hardware_inventory.html" class="md-nav__link">
+        Hardware Inventory
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical_documents/management_overview.html" class="md-nav__link">
+        Management Network Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_3" data-md-state="indeterminate" type="checkbox" id="__nav_3_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_3">
+          Workload definitions
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Workload definitions" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_3">
+          <span class="md-nav__icon md-icon"></span>
+          Workload definitions
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../technical_documents/workload_definitions/overview.html" class="md-nav__link">
+        Workload Definition Schema
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../notes_for_the_future.html" class="md-nav__link">
+        Notes for the future
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+  <a href="https://github.com/KTH-EXPECA/devdocs/edit/master/docs/tutorials/project_course/deploying.md" title="Edit this page" class="md-content__button md-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+
+<h1 id="deploying-a-workload-to-the-testbed">Deploying a workload to the Testbed<a class="headerlink" href="#deploying-a-workload-to-the-testbed" title="Permanent link">🔗</a></h1>
+<p><em>This documentation is a work-in-progress and subject to change.</em></p>
+<p>To deploy software to the testbed, we use a custom-built software framework called <code>Ainur</code> which automates:</p>
+<ol>
+<li>The establishment of physical layer links.</li>
+<li>The configuration of network layer components (networks and IP address ranges).</li>
+<li>Finally, deploys the workload to the corresponding hosts in a containerized fashion.</li>
+</ol>
+<p>In this page we will document the end-to-end procedure to writing a configuration for <code>Ainur</code> for automated experimentation.</p>
+<h2 id="physical-layer-configuration">Physical layer configuration<a class="headerlink" href="#physical-layer-configuration" title="Permanent link">🔗</a></h2>
+<p>TODO</p>
+<h2 id="network-layer-configuration">Network layer configuration<a class="headerlink" href="#network-layer-configuration" title="Permanent link">🔗</a></h2>
+<p>TODO</p>
+<h2 id="workload-configuration">Workload configuration<a class="headerlink" href="#workload-configuration" title="Permanent link">🔗</a></h2>
+<h3 id="preparation">Preparation<a class="headerlink" href="#preparation" title="Permanent link">🔗</a></h3>
+<p><code>Ainur</code> builds around Docker Swarm for containerized software deployment and orchestration.
+As such, your first step into understanding how to write the configuration section for software deployment will be to read through the official Docker documentation for Swarm mode.
+In particular, I suggest you first read through documentation in the following order:</p>
+<ol>
+<li><a href="https://docs.docker.com/engine/swarm/">Docker Swarm mode overview.</a></li>
+<li><a href="https://docs.docker.com/engine/swarm/key-concepts/">Swarm mode key concepts.</a></li>
+<li>The <a href="https://docs.docker.com/engine/swarm/swarm-tutorial/">swarm mode tutorial.</a>
+   You can also, if you wish, try to follow the tutorial.
+   However, you will not have to deal directly with a lot of the concepts explained there (for instance, you won't have to build the Swarm, as that is handled by <code>Ainur</code>)</li>
+<li>Finally, <a href="https://docs.docker.com/engine/swarm/stack-deploy/">Deploy a stack to a swarm.</a>
+   In practice, <code>Ainur</code> builds up the whole infrastructure of the Docker Swarm from the physical layer up, and leaves workload management to the user (i.e. you).
+   This means that the software deployment configuration simply consists of a <code>docker stack deploy</code>-compatible YAML document.</li>
+</ol>
+<h3 id="test-on-aws">Test on AWS<a class="headerlink" href="#test-on-aws" title="Permanent link">🔗</a></h3>
+<p>In order to prepare and test the configuration to run on the actual testbed, we will first run a small test on the AWS deployment.
+For this test you will have to configure a small, 2-host Docker Swarm yourselves and deploy the workload on top of it; for the real deployment on the testbed, you will only have to provide the configuration file and <code>Ainur</code> will handle Swarm configuration for you.</p>
+<h4 id="configuring-the-swarm">Configuring the Swarm<a class="headerlink" href="#configuring-the-swarm" title="Permanent link">🔗</a></h4>
+<h5 id="initialize-the-swarm">Initialize the Swarm<a class="headerlink" href="#initialize-the-swarm" title="Permanent link">🔗</a></h5>
+<ol>
+<li>Log into the <code>x86</code> AWS instance.</li>
+<li>Make sure everything is up to date: <code>sudo apt update &amp;&amp; sudo apt upgrade -y</code></li>
+<li>
+<p>Initialize a Swarm with the <code>x86</code> instance as its manager:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>$ docker swarm init --advertise-addr <span class="m">172</span>.31.100.125 --listen-addr <span class="m">172</span>.31.100.125 --data-path-addr <span class="m">172</span>.31.100.125
+<span class="linenos" data-linenos="2 "></span>Swarm initialized: current node <span class="o">(</span>&lt;node id&gt;<span class="o">)</span> is now a manager.
+<span class="linenos" data-linenos="3 "></span>
+<span class="linenos" data-linenos="4 "></span>To add a worker to this swarm, run the following command:
+<span class="linenos" data-linenos="5 "></span>
+<span class="linenos" data-linenos="6 "></span>docker swarm join --token SWMTKN-1-&lt;random token&gt; <span class="m">172</span>.31.100.125:2377
+<span class="linenos" data-linenos="7 "></span>
+<span class="linenos" data-linenos="8 "></span>To add a manager to this swarm, run <span class="s1">&#39;docker swarm join-token manager&#39;</span> and follow the instructions.
+</code></pre></div>
+</li>
+</ol>
+<p>Note: You should verify that <code>172.31.100.125</code> corresponds to the private IP address of the <code>x86</code> host through the AWS management console.</p>
+<p>Copy and save the token string (the section of text beginning with <code>SWMTKN-1-</code>) somewhere, as we will need it later.</p>
+<h5 id="add-the-second-node-to-the-swarm">Add the second node to the Swarm<a class="headerlink" href="#add-the-second-node-to-the-swarm" title="Permanent link">🔗</a></h5>
+<ol>
+<li>Log into the <code>ARM64</code> AWS instance.</li>
+<li>Make sure everything is up to date: <code>sudo apt update &amp;&amp; sudo apt upgrade -y</code></li>
+<li>
+<p>Connect this host to the Swarm we previously initialized:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>$ docker swarm join --token SWMTKN-1-&lt;random token&gt; <span class="m">172</span>.31.100.125:2377
+<span class="linenos" data-linenos="2 "></span>Node joined the swarm as a worker.
+</code></pre></div>
+</li>
+</ol>
+<p><code>SWMTKN-1-&lt;random token&gt;</code> corresponds to the token we saved earlier.</p>
+<h5 id="add-the-necessary-node-labels">Add the necessary node labels<a class="headerlink" href="#add-the-necessary-node-labels" title="Permanent link">🔗</a></h5>
+<p>On the testbed, we use "node labels" to identify nodes in the Swarm and orchestrate the deployment of software to specific hosts.
+We will need to set up the same labels on the AWS deployment in order to be able to correctly test our configuration.</p>
+<ol>
+<li>Log back into the <code>x86</code> AWS instance.
+   This instance is the Swarm manager and is the only one that can change properties such as node labels.</li>
+<li>List the nodes in the Swarm, and take note of their identifiers (first column of the output): <code>docker node ls</code>
+   You should be able to identify which node corresponds to the <code>x86</code> instance (it will have a <code>MANAGER STATUS</code> of <code>Leader</code>) and the <code>ARM64</code> instance.</li>
+<li>Add a <code>type</code> label with value <code>cloudlet</code> to the <code>x86</code> instance node: <code>docker node update --label-add type=cloudlet &lt;x86 node identifier&gt;</code></li>
+<li>Add a <code>type</code> label with value <code>client</code> to the <code>ARM64</code> instance node: <code>docker node update --label-add type=client &lt;ARM64 node identifier&gt;</code></li>
+</ol>
+<p>The Swarm is now ready.</p>
+<h4 id="write-a-deployment-configuration-file">Write a deployment configuration file<a class="headerlink" href="#write-a-deployment-configuration-file" title="Permanent link">🔗</a></h4>
+<p>To deploy your workload on the Swarm, you will have to write a so-called <code>docker-compose</code>-file.
+A <code>docker-compose</code> file corresponds to a YAML document describing the containers to be run and how they are interconnected (as well as other things such as shared storage and so on).
+You can study the full specification of <code>docker-compose</code> <a href="https://docs.docker.com/compose/compose-file/compose-file-v3/">files here.</a>, and <a href="https://docs.docker.com/engine/swarm/stack-deploy/">step through a tutorial on how these work in Swarm mode here.</a></p>
+<p>Nelow you can see a simple example <code>docker-compose</code> file used to deploy a test workload to the testbed Swarm:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span><span class="nn">---</span><span class="w"></span>
+<span class="linenos" data-linenos=" 2 "></span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.9&quot;</span><span class="w"></span>
+<span class="linenos" data-linenos=" 3 "></span><span class="w">  </span><span class="nt">services</span><span class="p">:</span><span class="w"></span>
+<span class="linenos" data-linenos=" 4 "></span><span class="w">    </span><span class="nt">server</span><span class="p">:</span><span class="w"></span>
+<span class="linenos" data-linenos=" 5 "></span><span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">expeca/primeworkload:server</span><span class="w"></span>
+<span class="linenos" data-linenos=" 6 "></span><span class="w">      </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;server.{{.Task.Slot}}&quot;</span><span class="w"></span>
+<span class="linenos" data-linenos=" 7 "></span><span class="w">      </span><span class="nt">environment</span><span class="p">:</span><span class="w"></span>
+<span class="linenos" data-linenos=" 8 "></span><span class="w">        </span><span class="nt">PORT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5000</span><span class="w"></span>
+<span class="linenos" data-linenos=" 9 "></span><span class="w">      </span><span class="nt">deploy</span><span class="p">:</span><span class="w"></span>
+<span class="linenos" data-linenos="10 "></span><span class="w">        </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span><span class="w"></span>
+<span class="linenos" data-linenos="11 "></span><span class="w">        </span><span class="nt">placement</span><span class="p">:</span><span class="w"></span>
+<span class="linenos" data-linenos="12 "></span><span class="w">          </span><span class="nt">max_replicas_per_node</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span><span class="w"></span>
+<span class="linenos" data-linenos="13 "></span><span class="w">          </span><span class="nt">constraints</span><span class="p">:</span><span class="w"></span>
+<span class="linenos" data-linenos="14 "></span><span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;node.labels.type==cloudlet&quot;</span><span class="w"></span>
+<span class="linenos" data-linenos="15 "></span>
+<span class="linenos" data-linenos="16 "></span><span class="w">    </span><span class="nt">client</span><span class="p">:</span><span class="w"></span>
+<span class="linenos" data-linenos="17 "></span><span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">expeca/primeworkload:client</span><span class="w"></span>
+<span class="linenos" data-linenos="18 "></span><span class="w">      </span><span class="nt">environment</span><span class="p">:</span><span class="w"></span>
+<span class="linenos" data-linenos="19 "></span><span class="w">        </span><span class="nt">SERVER_ADDR</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;server.{{.Task.Slot}}&quot;</span><span class="w"></span>
+<span class="linenos" data-linenos="20 "></span><span class="w">        </span><span class="nt">SERVER_PORT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">5000</span><span class="w"></span>
+<span class="linenos" data-linenos="21 "></span><span class="w">      </span><span class="nt">deploy</span><span class="p">:</span><span class="w"></span>
+<span class="linenos" data-linenos="22 "></span><span class="w">        </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3</span><span class="w"></span>
+<span class="linenos" data-linenos="23 "></span><span class="w">        </span><span class="nt">placement</span><span class="p">:</span><span class="w"></span>
+<span class="linenos" data-linenos="24 "></span><span class="w">          </span><span class="nt">max_replicas_per_node</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span><span class="w"></span>
+<span class="linenos" data-linenos="25 "></span><span class="w">          </span><span class="nt">constraints</span><span class="p">:</span><span class="w"></span>
+<span class="linenos" data-linenos="26 "></span><span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;node.labels.type==client&quot;</span><span class="w"></span>
+<span class="linenos" data-linenos="27 "></span><span class="w">        </span><span class="nt">restart_policy</span><span class="p">:</span><span class="w"></span>
+<span class="linenos" data-linenos="28 "></span><span class="w">          </span><span class="nt">condition</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">on-failure</span><span class="w"></span>
+<span class="linenos" data-linenos="29 "></span><span class="w">      </span><span class="nt">depends_on</span><span class="p">:</span><span class="w"></span>
+<span class="linenos" data-linenos="30 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">server</span><span class="w"></span>
+<span class="linenos" data-linenos="31 "></span><span class="nn">...</span><span class="w"></span>
+</code></pre></div>
+<p>In play English, the above <code>docker-compose</code> does the following:</p>
+<ol>
+<li>
+<p>Sets up three copies of the <code>expeca/primeworkload:server</code> container on nodes tagged <code>type=cloudlet</code>; since there is only a single cloudlet on the testbed currently, this means all three copies will run on the same host.
+   Each copy of the server container is given a different hostname depending on its copy index (i.e. first copy is <code>server.1</code>, second is <code>server.2</code>, and final is <code>server.3</code>).
+   Finally, the server software inside the container is given a single parameter <code>PORT</code> as an <a href="https://www.askpython.com/python/environment-variables-in-python">environment variable</a> --- since the container is not being run "normally", this is the easiest way to pass parameters to replicatied copies of a service.
+   <strong><em>YOU WILL HAVE TO MODIFY YOUR CODE TO ACCEPT CONNECTION PARAMETERS THIS WAY.</em></strong></p>
+</li>
+<li>
+<p>Next, it sets up three copies of the <code>expeca/primeworkload:client</code> container on nodes tagged <code>type=client</code>; additionally, only one container is allowed to run per client.
+   This means that this scenario needs three client hosts to run.
+   Each copy of this container is once again passed parameters as environment variables; note in particular the <code>SERVER_ADDR</code> parameter --- this is once a again a dynamic parameter which will be assigned a different value per replicated copy.
+   It will result in copy 1 of the client connecting to <code>server.1</code>, copy 2 to <code>server.2</code>, and copy 3 to <code>server.3</code>.
+   Finally, we specify a <code>restart_policy</code> indicating if and when to restart the container; <code>on-failure</code> indicates that copies should only be restarted if the code fails.
+   Other options are <code>any</code>, in which case containers are always restarted when they shut down; and <code>none</code>, in which containers are never restarted.</p>
+</li>
+</ol>
+<p>Your task now will be to 1. modify your code to accept parameters as environment variables and 2. write a similar configuration file, considering the limitations of the AWS test Swarm (2 nodes).
+You can use the below skeleton as a starting point:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos=" 1 "></span><span class="nn">---</span><span class="w"></span>
+<span class="linenos" data-linenos=" 2 "></span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;3.9&quot;</span><span class="w"></span>
+<span class="linenos" data-linenos=" 3 "></span><span class="w">  </span><span class="nt">services</span><span class="p">:</span><span class="w"></span>
+<span class="linenos" data-linenos=" 4 "></span><span class="w">    </span><span class="nt">controller</span><span class="p">:</span><span class="w"></span>
+<span class="linenos" data-linenos=" 5 "></span><span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;your controller image&gt;</span><span class="w"></span>
+<span class="linenos" data-linenos=" 6 "></span><span class="w">      </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;controller.{{.Task.Slot}}&quot;</span><span class="w"></span>
+<span class="linenos" data-linenos=" 7 "></span><span class="w">      </span><span class="nt">environment</span><span class="p">:</span><span class="w"></span>
+<span class="linenos" data-linenos=" 8 "></span><span class="w">        </span><span class="nt">PORT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;your port&gt;</span><span class="w"></span>
+<span class="linenos" data-linenos=" 9 "></span><span class="w">      </span><span class="nt">deploy</span><span class="p">:</span><span class="w"></span>
+<span class="linenos" data-linenos="10 "></span><span class="w">        </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span><span class="w"></span>
+<span class="linenos" data-linenos="11 "></span><span class="w">        </span><span class="nt">placement</span><span class="p">:</span><span class="w"></span>
+<span class="linenos" data-linenos="12 "></span><span class="w">          </span><span class="nt">constraints</span><span class="p">:</span><span class="w"></span>
+<span class="linenos" data-linenos="13 "></span><span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;node.labels.type==cloudlet&quot;</span><span class="w"></span>
+<span class="linenos" data-linenos="14 "></span>
+<span class="linenos" data-linenos="15 "></span><span class="w">    </span><span class="nt">plant</span><span class="p">:</span><span class="w"></span>
+<span class="linenos" data-linenos="16 "></span><span class="w">      </span><span class="nt">image</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;your plant image&gt;</span><span class="w"></span>
+<span class="linenos" data-linenos="17 "></span><span class="w">      </span><span class="nt">environment</span><span class="p">:</span><span class="w"></span>
+<span class="linenos" data-linenos="18 "></span><span class="w">        </span><span class="nt">CONTROLLER_ADDRESS</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;controller.{{.Task.Slot}}&quot;</span><span class="w"></span>
+<span class="linenos" data-linenos="19 "></span><span class="w">        </span><span class="nt">CONTROLLER_PORT</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;your port&gt;</span><span class="w"></span>
+<span class="linenos" data-linenos="20 "></span><span class="w">      </span><span class="nt">deploy</span><span class="p">:</span><span class="w"></span>
+<span class="linenos" data-linenos="21 "></span><span class="w">        </span><span class="nt">replicas</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span><span class="w"></span>
+<span class="linenos" data-linenos="22 "></span><span class="w">        </span><span class="nt">placement</span><span class="p">:</span><span class="w"></span>
+<span class="linenos" data-linenos="23 "></span><span class="w">          </span><span class="nt">max_replicas_per_node</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span><span class="w"></span>
+<span class="linenos" data-linenos="24 "></span><span class="w">          </span><span class="nt">constraints</span><span class="p">:</span><span class="w"></span>
+<span class="linenos" data-linenos="25 "></span><span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;node.labels.type==client&quot;</span><span class="w"></span>
+<span class="linenos" data-linenos="26 "></span><span class="w">        </span><span class="nt">restart_policy</span><span class="p">:</span><span class="w"></span>
+<span class="linenos" data-linenos="27 "></span><span class="w">          </span><span class="nt">condition</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">on-failure</span><span class="w"></span>
+<span class="linenos" data-linenos="28 "></span><span class="w">      </span><span class="nt">depends_on</span><span class="p">:</span><span class="w"></span>
+<span class="linenos" data-linenos="29 "></span><span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">server</span><span class="w"></span>
+<span class="linenos" data-linenos="30 "></span><span class="nn">...</span><span class="w"></span>
+</code></pre></div>
+<p>Once you have done both things, we can progress on to deploying the workload on the AWS test environment.</p>
+<h4 id="deploying-workload-on-aws-swarm">Deploying workload on AWS Swarm<a class="headerlink" href="#deploying-workload-on-aws-swarm" title="Permanent link">🔗</a></h4>
+<ol>
+<li>Log into the <code>x86</code> host.</li>
+<li>Make sure the Swarm is healthy: <code>docker node ls</code>.
+   You should see both nodes reporting OK statuses.</li>
+<li>
+<p>Deploy your <code>docker-compose</code> file as a Docker Swarm Service Stack:</p>
+<p><div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>$ docker stack deploy --compose-file docker-compose.yml InvertedPendulum
+<span class="linenos" data-linenos="2 "></span>Creating network InvertedPendulum_default
+<span class="linenos" data-linenos="3 "></span>Creating service InvertedPendulum_controller
+<span class="linenos" data-linenos="4 "></span>Creating service InvertedPendulum_plant
+</code></pre></div>
+4. Check that it is running: <code>docker stack services InvertedPendulum</code>.
+   You should see both services report <code>1/1</code> replicas running if everything went smoothly.
+   Note: it can take a while for the services to start up, as they might have to pull the container images from Docker Hub, so have some patience.</p>
+</li>
+<li>
+<p>You can check that the containers are running in the correct nodes by running <code>docker ps</code> on both the <code>x86</code> and <code>ARM64</code> hosts --- you should see one copy of the corresponding container running on each.</p>
+</li>
+<li>To check the logs of the controller: <code>docker service logs InvertedPendulum_controller</code>.
+   And of the plant: <code>docker service logs InvertedPendulum_plant</code>.</li>
+<li>Finally, to bring the stack down: <code>docker stack rm InvertedPendulum</code>.</li>
+</ol>
+<p>Once the setup is working on AWS we can move on to deploying on the testbed.</p>
+<h2 id="deployment-on-the-testbed-through-ainur">Deployment on the testbed through Ainur<a class="headerlink" href="#deployment-on-the-testbed-through-ainur" title="Permanent link">🔗</a></h2>
+<h3 id="log-into-galadriel-using-the-provided-ssh-keys">Log into Galadriel using the provided SSH keys<a class="headerlink" href="#log-into-galadriel-using-the-provided-ssh-keys" title="Permanent link">🔗</a></h3>
+<p>Your username is <code>project2021</code>.
+No password is needed to login, only the SSH key.</p>
+<p>Note that SSH is listening on a non-default port, <code>2222/tcp</code>, and that you will NEED to forward your SSH keys (using the <code>-A</code> flag).</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>ssh -A -i .ssh/project_rsa project2021@testbed.expeca.proj.kth.se -p <span class="m">2222</span>
+</code></pre></div>
+<p>Alternatively, you can put this configuration into your <code>~/.ssh/config</code> file for persistent configuration:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>...
+<span class="linenos" data-linenos="2 "></span>
+<span class="linenos" data-linenos="3 "></span>Host testbed.expeca.proj.kth.se
+<span class="linenos" data-linenos="4 "></span>    Hostname testbed.expeca.proj.kth.se
+<span class="linenos" data-linenos="5 "></span>    Port 2222
+<span class="linenos" data-linenos="6 "></span>    IdentityFile ~/.ssh/project_rsa
+<span class="linenos" data-linenos="7 "></span>    User project2021
+<span class="linenos" data-linenos="8 "></span>    ForwardAgent yes
+</code></pre></div>
+<p>Then, you can just do</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>ssh testbed.expeca.proj.kth.se
+</code></pre></div>
+<h3 id="clone-your-fork-of-ainur">Clone your fork of Ainur<a class="headerlink" href="#clone-your-fork-of-ainur" title="Permanent link">🔗</a></h3>
+<p>Note that you will need to use branch <code>dev_merge</code>.</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>$ git clone &lt;your Ainur fork&gt;
+<span class="linenos" data-linenos="2 "></span>...
+<span class="linenos" data-linenos="3 "></span>$ <span class="nb">cd</span> Ainur
+<span class="linenos" data-linenos="4 "></span>~/Ainur
+<span class="linenos" data-linenos="5 "></span>$ git checkout dev_merge
+<span class="linenos" data-linenos="6 "></span>Switched to branch dev_merge. 
+</code></pre></div>
+<h3 id="prepare-the-python-environment-and-install-necessary-packages">Prepare the Python environment and install necessary packages<a class="headerlink" href="#prepare-the-python-environment-and-install-necessary-packages" title="Permanent link">🔗</a></h3>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>$ virtualenv --python<span class="o">=</span>python3.8 venv
+<span class="linenos" data-linenos="2 "></span>...
+<span class="linenos" data-linenos="3 "></span>$ <span class="nb">source</span> venv/bin/activate
+<span class="linenos" data-linenos="4 "></span>
+<span class="linenos" data-linenos="5 "></span>$ pip install -U pip -Ur requirements.txt
+<span class="linenos" data-linenos="6 "></span>...
+</code></pre></div>
+<h3 id="make-sure-all-the-hosts-have-your-docker-images">Make sure all the hosts have your Docker images<a class="headerlink" href="#make-sure-all-the-hosts-have-your-docker-images" title="Permanent link">🔗</a></h3>
+<p>I created a script to automatically pull your Docker images on all the hosts at once.
+You can run it like so:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>$ python pull_image.py &lt;image_name&gt;
+<span class="linenos" data-linenos="2 "></span>...
+</code></pre></div>
+<h3 id="run-your-workload">Run your workload<a class="headerlink" href="#run-your-workload" title="Permanent link">🔗</a></h3>
+<p>Use a modified version of the <code>end_to_end.py</code> file as discussed:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>$ python end_to_end_modified.py
+</code></pre></div>
+<h3 id="collect-your-data">Collect your data<a class="headerlink" href="#collect-your-data" title="Permanent link">🔗</a></h3>
+<p>Once the workload has finished (or timed out), collected data can be found under <code>/opt/expeca/experiments/&lt;experiment name&gt;</code>.
+If you get a permission denied error when trying to access the files, just use <code>sudo</code> (you will not be asked for a password).</p>
+
+  <hr>
+<div class="md-source-file">
+  <small>
+    
+      Last update:
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2022-05-16T14:17:33+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2022-05-16</span>
+      
+        <br>
+        Created:
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2022-05-16T14:17:33+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2022-05-16</span>
+      
+    
+  </small>
+</div>
+
+              
+            </article>
+          </div>
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Back to top
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="aws.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Accessing the AWS test instances" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Accessing the AWS test instances
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../../technical_documents/hardware_inventory.html" class="md-footer__link md-footer__link--next" aria-label="Next: Hardware Inventory" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Hardware Inventory
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2020 - EXPECA Project Group at KTH Royal Institute of Technology
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../..", "features": ["navigation.instant", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "toc.integrate"], "search": "../../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.a6c66575.min.js"></script>
+      
+        <script src="../../js/timeago.min.js"></script>
+      
+        <script src="../../js/timeago_mkdocs_material.js"></script>
+      
+    
+  </body>
+</html>

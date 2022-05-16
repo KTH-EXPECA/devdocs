@@ -1,0 +1,37 @@
+---
+name: Example Workload
+replicate: 10
+duration: 1h35m
+restart_on_fail: yes
+stagger:
+  type: homogeneous
+  size: 10s
+backend:
+  image: example-backend-image:latest
+  ports: 
+    - 1337
+    - 1312
+client:
+  image: example-client_image:latest
+data:
+  # DB schema in YAML?
+  tables:
+    pendulum:
+      - time:
+          type: TIMESTAMP
+          primary_key: yes
+          not-null: yes
+      - instance:
+          type: INT32
+          foreign_key: 
+            table: expeca_client_instance
+            column: id
+          not_null: yes
+      - angle:
+          type: FLOAT32
+          not-null: yes
+      - position:
+          type: FLOAT32
+          not-null: yes
+      - ...
+...

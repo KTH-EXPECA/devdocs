@@ -1,0 +1,1049 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+        <meta name="author" content="Manuel Olguín Muñoz">
+      
+      
+        <link rel="canonical" href="https://expeca.proj.kth.se/devdocs/tutorials/deployment/hardware_setup/x86hosts.html">
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.3.0, mkdocs-material-8.2.15">
+    
+    
+      
+        <title>Setting up the x86 hosts - EXPECA Testbed Developer Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.c382b1dc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.cc9b2e1e.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#4051b5">
+        
+      
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Ubuntu:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Ubuntu";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../css/timeago.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="amber">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#setting-up-the-x86-hosts" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../../index.html" title="EXPECA Testbed Developer Documentation" class="md-header__button md-logo" aria-label="EXPECA Testbed Developer Documentation" data-md-component="logo">
+      
+  <img src="../../../assets/kth_logo.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EXPECA Testbed Developer Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Setting up the x86 hosts
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/KTH-EXPECA/devdocs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    KTH-EXPECA/devdocs
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-tabs__inner md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../../index.html" class="md-tabs__link">
+      Welcome
+    </a>
+  </li>
+
+      
+        
+  
+  
+    
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../sshing_into_the_lab.html" class="md-tabs__link md-tabs__link--active">
+        Tutorials
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../../technical_documents/hardware_inventory.html" class="md-tabs__link">
+        Technical documents
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+
+
+  <li class="md-tabs__item">
+    <a href="../../../notes_for_the_future.html" class="md-tabs__link">
+      Notes for the future
+    </a>
+  </li>
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+  
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--lifted md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../index.html" title="EXPECA Testbed Developer Documentation" class="md-nav__button md-logo" aria-label="EXPECA Testbed Developer Documentation" data-md-component="logo">
+      
+  <img src="../../../assets/kth_logo.png" alt="logo">
+
+    </a>
+    EXPECA Testbed Developer Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/KTH-EXPECA/devdocs" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.1.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    KTH-EXPECA/devdocs
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../index.html" class="md-nav__link">
+        Welcome
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2">
+          Tutorials
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Tutorials" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          Tutorials
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../sshing_into_the_lab.html" class="md-nav__link">
+        Accessing the lab remotely
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../adding_documentation.html" class="md-nav__link">
+        Editing documentation
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ansible.html" class="md-nav__link">
+        Ansible
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../ips_dns_bindings.html" class="md-nav__link">
+        Setting IP addresses and DNS bindings
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_5" type="checkbox" id="__nav_2_5" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_5">
+          Deployment
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Deployment" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_5">
+          <span class="md-nav__icon md-icon"></span>
+          Deployment
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_5_1" type="checkbox" id="__nav_2_5_1" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_5_1">
+          Hardware setup
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Hardware setup" data-md-level="3">
+        <label class="md-nav__title" for="__nav_2_5_1">
+          <span class="md-nav__icon md-icon"></span>
+          Hardware setup
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="raspberrypis.html" class="md-nav__link">
+        Setting up the Raspberry Pi 4B clients
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Setting up the x86 hosts
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="x86hosts.html" class="md-nav__link md-nav__link--active">
+        Setting up the x86 hosts
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#the-autoinstall-configuration-files" class="md-nav__link">
+    The autoinstall configuration files
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#providing-the-autoinstall-configuration-at-install-time" class="md-nav__link">
+    Providing the autoinstall configuration at install time
+  </a>
+  
+    <nav class="md-nav" aria-label="Providing the autoinstall configuration at install time">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#prerequisites" class="md-nav__link">
+    Prerequisites
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#deploy-a-metadata-server-using-docker" class="md-nav__link">
+    Deploy a metadata server using Docker
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#preparing-the-install-media" class="md-nav__link">
+    Preparing the install media
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#instantiate-an-x86-host-with-cloud-init-and-the-metadata-server" class="md-nav__link">
+    Instantiate an x86 host with cloud-init and the metadata server
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_5_2" data-md-state="indeterminate" type="checkbox" id="__nav_2_5_2" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_5_2">
+          Software setup
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Software setup" data-md-level="3">
+        <label class="md-nav__title" for="__nav_2_5_2">
+          <span class="md-nav__icon md-icon"></span>
+          Software setup
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../software_setup/Fluent.html" class="md-nav__link">
+        Fluent
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../software_setup/ansible.html" class="md-nav__link">
+        Ansible
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../software_setup/ntp.html" class="md-nav__link">
+        Time synchronization
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2_6" data-md-state="indeterminate" type="checkbox" id="__nav_2_6" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2_6">
+          Project course
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Project course" data-md-level="2">
+        <label class="md-nav__title" for="__nav_2_6">
+          <span class="md-nav__icon md-icon"></span>
+          Project course
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project_course/aws.html" class="md-nav__link">
+        Accessing the AWS test instances
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../project_course/deploying.html" class="md-nav__link">
+        Deploying a workload to the Testbed
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" data-md-state="indeterminate" type="checkbox" id="__nav_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3">
+          Technical documents
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Technical documents" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Technical documents
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical_documents/hardware_inventory.html" class="md-nav__link">
+        Hardware Inventory
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical_documents/management_overview.html" class="md-nav__link">
+        Management Network Overview
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3_3" data-md-state="indeterminate" type="checkbox" id="__nav_3_3" checked>
+      
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3_3">
+          Workload definitions
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" aria-label="Workload definitions" data-md-level="2">
+        <label class="md-nav__title" for="__nav_3_3">
+          <span class="md-nav__icon md-icon"></span>
+          Workload definitions
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../technical_documents/workload_definitions/overview.html" class="md-nav__link">
+        Workload Definition Schema
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../notes_for_the_future.html" class="md-nav__link">
+        Notes for the future
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+  <a href="https://github.com/KTH-EXPECA/devdocs/edit/master/docs/tutorials/deployment/hardware_setup/x86hosts.md" title="Edit this page" class="md-content__button md-icon">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20.71 7.04c.39-.39.39-1.04 0-1.41l-2.34-2.34c-.37-.39-1.02-.39-1.41 0l-1.84 1.83 3.75 3.75M3 17.25V21h3.75L17.81 9.93l-3.75-3.75L3 17.25Z"/></svg>
+  </a>
+
+
+
+<h1 id="setting-up-the-x86-hosts">Setting up the x86 hosts<a class="headerlink" href="#setting-up-the-x86-hosts" title="Permanent link">🔗</a></h1>
+<p>To provision the x86 hosts we use <a href="https://ubuntu.com/server/docs/install/autoinstall">Ubuntu Server autoinstall</a>, available from <a href="https://releases.ubuntu.com/20.04/">Ubuntu Server 20.04 LTS</a> on.
+This uses a custom configuration of <a href="https://cloudinit.readthedocs.io/en/latest/">cloud-init</a> to automate the install of Ubuntu Server on the target machine and to configure it on first boot.</p>
+<h2 id="the-autoinstall-configuration-files">The autoinstall configuration files<a class="headerlink" href="#the-autoinstall-configuration-files" title="Permanent link">🔗</a></h2>
+<p>For in-depth details on the autoinstall configuration file format, see <a href="https://ubuntu.com/server/docs/install/autoinstall-reference">here</a> and <a href="https://ubuntu.com/server/docs/install/autoinstall-reference">here</a>.
+It follows a similar structure as a generic cloud-config YAML file, with some caveats.
+The file <em>must</em> be a plain text file named <code>user-data</code> (without any filetype extension), and it <em>must</em> begin with a magic comment, <code>#cloud-config</code> (note that there should be <strong><em>no</em></strong> space after the <code>#</code>), followed by a single top-level key <code>autoinstall</code>.
+The <code>autoinstall</code> key contains all the configuration directives detailed in the aforementioned links, e.g.:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span><span class="c1">#cloud-config</span><span class="w"></span>
+<span class="linenos" data-linenos="2 "></span><span class="nt">autoinstall</span><span class="p">:</span><span class="w"></span>
+<span class="linenos" data-linenos="3 "></span><span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1</span><span class="w"></span>
+<span class="linenos" data-linenos="4 "></span><span class="w">  </span><span class="nt">identity</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{</span><span class="w"> </span><span class="nv">...</span><span class="w"> </span><span class="p p-Indicator">}</span><span class="w"></span>
+<span class="linenos" data-linenos="5 "></span><span class="w">  </span><span class="l l-Scalar l-Scalar-Plain">...</span><span class="w"></span>
+</code></pre></div>
+<p>For more details, on the autoinstall configuration files, please see the extensively documented files for the hosts that can be found on the <a href="https://github.com/KTH-EXPECA/TestbedConfig/tree/master/cloud-init">KTH-EXPECA/TestbedConfig</a> repository.</p>
+<h2 id="providing-the-autoinstall-configuration-at-install-time">Providing the autoinstall configuration at install time<a class="headerlink" href="#providing-the-autoinstall-configuration-at-install-time" title="Permanent link">🔗</a></h2>
+<p>The easiest way to provide this autoinstall configuration file to the Ubuntu Server installer is over the network, through a plain HTTP metadata server (see <a href="https://ubuntu.com/server/docs/install/autoinstall-quickstart">here</a>, <a href="https://cloudinit.readthedocs.io/en/latest/topics/datasources/nocloud.html">here</a>, and <a href="https://opensource.com/article/20/5/create-simple-cloud-init-service-your-homelab">here</a>).
+As mentioned before, configuration files for the hosts can be found on the <a href="https://github.com/KTH-EXPECA/TestbedConfig/tree/master/cloud-init">KTH-EXPECA/TestbedConfig</a> repository.</p>
+<h3 id="prerequisites">Prerequisites<a class="headerlink" href="#prerequisites" title="Permanent link">🔗</a></h3>
+<ol>
+<li>The metadata server should be reachable through the network by the machine being instantiated, for instance by deploying it on a device connected to the management network switch.
+    Make sure to write down the IP address of the device running the server (on Ubuntu and Arch Linux, you can figure out the IP address of the local computer through the <code>ip addr show</code> command).</li>
+<li>For the following instructions, Docker should be installed on the device hosting the metadata server.
+    However, this is only for convenience, as the metadata server just needs to be a barebones HTTP server - this can also be achieved through the Python 3 web server module for instance (i.e. <code>python3 -m http.server ...</code>).</li>
+<li>
+<p>Make sure there are no firewall rules blocking access to the port we will be using to serve metadata on the device hosting the metadata server container.
+    On Ubuntu, the commands for letting traffic through the firewall are (replace <code>$PORT</code> with the desired port number):</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span># check status of the default &quot;uncomplicated firewall&quot; 
+<span class="linenos" data-linenos="2 "></span>$ sudo ufw status
+<span class="linenos" data-linenos="3 "></span>Status: active
+<span class="linenos" data-linenos="4 "></span>
+<span class="linenos" data-linenos="5 "></span># if the output of the previous command is &quot;active&quot;, add a rule to allow external connections on TCP port $PORT
+<span class="linenos" data-linenos="6 "></span>$ sudo ufw allow $PORT/tcp
+<span class="linenos" data-linenos="7 "></span>Rule added
+<span class="linenos" data-linenos="8 "></span>Rule added (v6)
+</code></pre></div>
+</li>
+<li>
+<p>Ubuntu Server autoinstall expects three files to be accessible on the HTTP server: <code>user-data</code>, <code>vendor-data</code>, and <code>meta-data</code>.
+    <code>user-data</code> corresponds to the previously discussed autoinstall configuration file, whereas <code>vendor-data</code> and <code>meta-data</code> correspond to files providing instance metadata we will not be using.
+    However, these files need to be present even if empty, otherwise the autoinstall will fail.</p>
+</li>
+</ol>
+<h3 id="deploy-a-metadata-server-using-docker">Deploy a metadata server using Docker<a class="headerlink" href="#deploy-a-metadata-server-using-docker" title="Permanent link">🔗</a></h3>
+<ol>
+<li>
+<p>Clone the <a href="https://github.com/KTH-EXPECA/TestbedConfig">KTH-EXPECA/TestbedConfig</a> repository:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>git clone git@github.com:KTH-EXPECA/TestbedConfig.git
+</code></pre></div>
+</li>
+<li>
+<p>Move into the <code>cloud-init</code> directory inside the repo:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>cd TestbedConfig/cloud-init
+</code></pre></div>
+</li>
+<li>
+<p>Inside this directory you will find subdirectories for each of the x86 management hosts (<code>cloudlet</code>, <code>database_server</code>, <code>management_server</code>) as well as a shell script <code>serve_cloud_init.sh</code> to automate serving of metadata.
+    The script takes one of the aforementioned subdirectories and a port as arguments and sets up an NGINX web server serving metadata:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>./serve_cloud_init.sh &lt;directory&gt; &lt;port&gt;
+</code></pre></div>
+<p>For instance, to serve metadata for the <code>cloudlet</code> on port 80, one would do:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>./server_cloud_init.sh ./cloudlet 80
+</code></pre></div>
+</li>
+<li>
+<p>To instead do this manually:</p>
+<ul>
+<li>
+<p>Serve metadata using the official NGINX Docker container image.
+    Replace <code>$MDATADIR</code> with the directory containing metadata for the desired instance, and <code>$PORT</code> with the desired port on which to listen:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>docker run --rm -it -p $PORT:80 -v /path/to/TestbedConfig/cloud-init/$MDATADIR:/usr/share/nginx/html:ro nginx:latest
+</code></pre></div>
+<p>Again, for example to serve metadata for the <code>cloudlet</code> on port 80, one would do:</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>docker run --rm -it -p 80:80 -v /path/to/TestbedConfig/cloud-init/cloudlet:/usr/share/nginx/html:ro nginx:latest
+</code></pre></div>
+</li>
+<li>
+<p>Make sure the files are accessible from the network by visiting the IP address of the metadata server host from a web browser (don't forget to include the port in the URL).</p>
+</li>
+<li>
+<p>This can also be tested on out the command line using <code>wget</code> or <code>curl</code> (replace <code>$ADDR</code> with the IP of the metadata server host and <code>$PORT</code> with the TCP port on which it is listening):</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>wget $ADDR:$PORT/user-data
+<span class="linenos" data-linenos="2 "></span>
+<span class="linenos" data-linenos="3 "></span>curl -X GET $ADDR:$PORT/user-data
+</code></pre></div>
+</li>
+</ul>
+</li>
+</ol>
+<h3 id="preparing-the-install-media">Preparing the install media<a class="headerlink" href="#preparing-the-install-media" title="Permanent link">🔗</a></h3>
+<ol>
+<li>Obtain a copy of the Ubuntu Server 20.04 LTS install image <a href="https://releases.ubuntu.com/20.04/">from the official website.</a></li>
+<li>
+<p>If instantiating a physical device, prepare a bootable USB with this image.</p>
+<ul>
+<li>Easiest way to do this is probably using <a href="https://www.ventoy.net">Ventoy</a>. Read the <a href="https://www.ventoy.net/en/doc_start.html">Getting started</a> documentation to quickly get a bootable USB up and running.</li>
+<li>Alternatively, use tools like <a href="https://rufus.ie/en_US/">Rufus</a>, <a href="https://unetbootin.github.io/">Unetbootin</a>, or plain-old <a href="https://wiki.archlinux.org/title/USB_flash_installation_medium">command line</a>.</li>
+</ul>
+</li>
+</ol>
+<h3 id="instantiate-an-x86-host-with-cloud-init-and-the-metadata-server">Instantiate an x86 host with cloud-init and the metadata server<a class="headerlink" href="#instantiate-an-x86-host-with-cloud-init-and-the-metadata-server" title="Permanent link">🔗</a></h3>
+<ol>
+<li>Boot into the bootloader of the previously prepared installation media, but don't boot into the installer itself yet.</li>
+<li>
+<p>Edit the installer kernel command line to point it towards the previously prepared metadata server:</p>
+<ul>
+<li>At the bootloader main menu, select <code>Install Ubuntu Server</code> and press <code>e</code>.</li>
+<li>
+<p>Edit the line</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>linux /casper/vmlinuz quiet ---
+</code></pre></div>
+<p>to read</p>
+<div class="highlight"><pre><span></span><code><span class="linenos" data-linenos="1 "></span>linux /casper/vmlinux quiet autoinstall ds=nocloud-net\;s=http://$ADDR:$PORT/
+</code></pre></div>
+</li>
+</ul>
+<p>replacing <code>$ADDR</code> and <code>$PORT</code> with the address and port of the metadata server.</p>
+<p><em>Note the escaped <code>;</code>, i.e. <code>\;</code>.</em>
+<em>This is only needed because GRUB interprets <code>;</code> as a command delimiter; in other setups (for instance when installing on a virtual machine) escaping <code>;</code> might not be necessary.</em></p>
+</li>
+<li>
+<p>Press <code>F10</code> to boot. The installer will connect to the metadata server and begin installation of the host based on the metadata obtained.
+    Note that the install is not necessarily <em>fully</em> automatic, as there might be some sections in the autoinstall configuration files directly specified as interactive.
+    In particular, storage setup usually needs special attention and is often specified as interactive.
+    See the configuration files for details.</p>
+</li>
+<li>
+<p>Once installation is finished, the installer will prompt to reboot.
+    However, as of June 2021 there seems to be a bug in the Ubuntu Server installer which causes it to crash at this point.
+    Instead, when the reboot prompt appears, switch to TTY2 (<code>ALT + F2</code>) and reboot manually: <code>sudo reboot</code>.</p>
+</li>
+<li>
+<p>The host will reboot and perform some final configuration of first boot, after which it will be ready to be used.</p>
+</li>
+</ol>
+
+  <hr>
+<div class="md-source-file">
+  <small>
+    
+      Last update:
+      <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2022-05-16T14:17:33+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2022-05-16</span>
+      
+        <br>
+        Created:
+        <span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-timeago"><span class="timeago" datetime="2022-05-16T14:17:33+00:00" locale="en"></span></span><span class="git-revision-date-localized-plugin git-revision-date-localized-plugin-iso_date">2022-05-16</span>
+      
+    
+  </small>
+</div>
+
+              
+            </article>
+          </div>
+        </div>
+        
+          <a href="#" class="md-top md-icon" data-md-component="top" data-md-state="hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12Z"/></svg>
+            Back to top
+          </a>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="raspberrypis.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Setting up the Raspberry Pi 4B clients" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Setting up the Raspberry Pi 4B clients
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../software_setup/Fluent.html" class="md-footer__link md-footer__link--next" aria-label="Next: Fluent" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              Fluent
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2020 - EXPECA Project Group at KTH Royal Institute of Technology
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "../../..", "features": ["navigation.instant", "navigation.tabs", "navigation.sections", "navigation.expand", "navigation.top", "toc.integrate"], "search": "../../../assets/javascripts/workers/search.2a1c317c.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.a6c66575.min.js"></script>
+      
+        <script src="../../../js/timeago.min.js"></script>
+      
+        <script src="../../../js/timeago_mkdocs_material.js"></script>
+      
+    
+  </body>
+</html>
